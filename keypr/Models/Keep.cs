@@ -16,7 +16,7 @@ namespace keypr.Models
     public string CreatorId { get; set; }
     public Profile Creator;
     }
-      public class VaultKeepViewModel : Keep
+      public class VaultKeepKeepViewModel : Keep
   {
     public int VaultKeepId { get; set; }
   }

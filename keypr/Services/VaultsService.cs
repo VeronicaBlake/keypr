@@ -27,6 +27,21 @@ namespace keypr.Services
             return found;
         }
 
+        internal Vault Edit(Vault updatedVault)
+        {
+            Vault original = Get(updatedVault.Id);
+            if (original.CreatorId != updatedVault.CreatorId)
+            {
+                throw new Exception("You can't edit someone else's vault");
+            }
+            original.Name = updatedVault.Name ?? original.Name;
+            original.Description = updatedVault.Description ?? original.Description;
+            // original.IsPrivate = updatedVault.IsPrivate;
+            original.Img = updatedVault.Img ?? original.Img;
+            _repo.Edit(original);
+            return original;
+        }
+
         internal void Delete(int vaultId, string userId)
         {
            Vault toDelete = Get(vaultId);

@@ -29,6 +29,8 @@ namespace keypr.Controllers
             {
                 Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
                 newVault.CreatorId = userInfo.Id;
+                newVault.Creator = userInfo;
+                //REVIEW why doesn't the above line populate the creator? 
                 Vault vault = _service.Create(newVault);
                 return Ok(vault);
             }
@@ -50,6 +52,24 @@ namespace keypr.Controllers
                 return BadRequest(err.Message);
             }
         }
+        [HttpPut("{id}")]
+        [Authorize]
+        public async Task<ActionResult<Vault>> Edit([FromBody] Vault updatedVault, int id)
+        {
+        try
+        {
+            Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
+            updatedVault.CreatorId = userInfo.Id;
+            updatedVault.Id = id;
+            Vault vault = _service.Edit(updatedVault);
+            return Ok(vault);
+        }
+        catch (Exception err)
+        {
+            return BadRequest(err.Message);
+        }
+    }
+
         [HttpDelete("{id}")]
         [Authorize]
         public async Task<ActionResult<String>> Delete(int id)
@@ -68,6 +88,5 @@ namespace keypr.Controllers
        
     }
 }
-
     //REVIEW why ActionResult sometimes? I forget }
     //TODO populate the (╯°□°）╯︵ ┻━┻ creator 

@@ -40,14 +40,22 @@ namespace keypr.Repositories
             SELECT LAST_INSERT_ID();
             ";
             newVault.Id = _db.ExecuteScalar<int>(sql, newVault);
-            // _db.Query<Vault, Profile, Vault>(sql, (v,p) =>
-            // {
-            //     v.Creator = p;
-            //     newVault.Creator = p;
-            //     return v; 
-            // });
             return newVault;
             //TODO need to populate the creator, how do I do that again?
+        }
+
+        public Vault Edit(Vault updatedVault)
+        {
+            string sql = @"
+            UPDATE vaults
+            SET
+            name = @Name,
+            description = @Description,
+            img = @Img
+            WHERE id = @Id
+            ;";
+            _db.Execute(sql, updatedVault);
+            return updatedVault;
         }
 
         public void Delete(int id)

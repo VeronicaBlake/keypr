@@ -4,4 +4,5 @@ namespace keypr.Controllers
     {
         
     }
+    //NOTE: create, getAll, getById, edit, delete 
 }

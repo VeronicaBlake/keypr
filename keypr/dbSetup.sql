@@ -12,6 +12,7 @@ CREATE TABLE IF NOT EXISTS vaults(
   updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Last Update',
   creatorId VARCHAR(255) NOT NULL COMMENT 'FK: user account',
   name VARCHAR(255) NOT NULL COMMENT 'keep name',
+  img VARCHAR(255) COMMENT 'image URL',
   description VARCHAR(255) COMMENT 'keep description',
   isPrivate TINYINT COMMENT 'is the vault private?',
   FOREIGN KEY (creatorId) REFERENCES accounts(id) ON DELETE CASCADE 

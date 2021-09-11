@@ -26,5 +26,15 @@ namespace keypr.Services
             }
             return found;
         }
+
+        internal void Delete(int vaultId, string userId)
+        {
+           Vault toDelete = Get(vaultId);
+            if (toDelete.CreatorId != userId)
+        {
+            throw new Exception("Thats not your vault");
+        }
+            _repo.Delete(vaultId);
+        }
     }
 }

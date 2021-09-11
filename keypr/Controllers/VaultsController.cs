@@ -21,22 +21,22 @@ namespace keypr.Controllers
             _ks = ks;
         }
 
-    [HttpPost]
-    [Authorize]
-    public async Task<ActionResult<Vault>> Create([FromBody] Vault newVault)
-    {
-      try
-      {
-        Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
-        newVault.CreatorId = userInfo.Id;
-        Vault vault = _service.Create(newVault);
-        return Ok(vault);
-      }
-      catch (Exception err)
-      {
-        return BadRequest(err.Message);
-      }
-    }
+        [HttpPost]
+        [Authorize]
+        public async Task<ActionResult<Vault>> Create([FromBody] Vault newVault)
+        {
+            try
+            {
+                Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
+                newVault.CreatorId = userInfo.Id;
+                Vault vault = _service.Create(newVault);
+                return Ok(vault);
+            }
+            catch (Exception err)   
+            {
+                return BadRequest(err.Message);
+            }
+        }
         [HttpGet("{id}")]
         public ActionResult<Vault> Get(int id)
         {
@@ -50,8 +50,24 @@ namespace keypr.Controllers
                 return BadRequest(err.Message);
             }
         }
+        [HttpDelete("{id}")]
+        [Authorize]
+        public async Task<ActionResult<String>> Delete(int id)
+        {
+            try
+            {
+                Profile userInfo = await HttpContext.GetUserInfoAsync<Profile>();
+                _service.Delete(id, userInfo.Id);
+                return Ok("Vault Deleted");
+            }
+            catch (Exception err)
+            {
+                return BadRequest(err.Message);
+            }
+        }
+       
     }
 }
 
-    //TODO: create, edit, delete 
     //REVIEW why ActionResult sometimes? I forget }
+    //TODO populate the (╯°□°）╯︵ ┻━┻ creator 

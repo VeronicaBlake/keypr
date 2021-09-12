@@ -66,39 +66,38 @@ namespace keypr.Controllers
                 return BadRequest(err.Message);
             }
         }
-    //     [HttpPut("{id}")]
-    //     [Authorize]
-    //     public async Task<ActionResult<Vault>> Edit([FromBody] Vault updatedVault, int id)
-    //     {
-    //     try
-    //     {
-    //         Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
-    //         updatedVault.CreatorId = userInfo.Id;
-    //         updatedVault.Id = id;
-    //         Vault vault = _service.Edit(updatedVault);
-    //         return Ok(vault);
-    //     }
-    //     catch (Exception err)
-    //     {
-    //         return BadRequest(err.Message);
-    //     }
-    // }
+        [HttpPut("{id}")]
+        [Authorize]
+        public async Task<ActionResult<Keep>> Edit([FromBody] Keep updatedKeep, int id)
+        {
+            try
+            {
+                Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
+                updatedKeep.CreatorId = userInfo.Id;
+                updatedKeep.Id = id;
+                Keep keep = _service.Edit(updatedKeep);
+                return Ok(keep);
+            }
+            catch (Exception err)
+            {
+                return BadRequest(err.Message);
+            }
+        }
 
-        // [HttpDelete("{id}")]
-        // [Authorize]
-        // public async Task<ActionResult<String>> Delete(int id)
-        // {
-        //     try
-        //     {
-        //         Profile userInfo = await HttpContext.GetUserInfoAsync<Profile>();
-        //         _service.Delete(id, userInfo.Id);
-        //         return Ok("Vault Deleted");
-        //     }
-        //     catch (Exception err)
-        //     {
-        //         return BadRequest(err.Message);
-        //     }
-        // }
+        [HttpDelete("{id}")]
+        [Authorize]
+        public async Task<ActionResult<String>> Delete(int id)
+        {
+            try
+            {
+                Profile userInfo = await HttpContext.GetUserInfoAsync<Profile>();
+                _service.Delete(id, userInfo.Id);
+                return Ok("Keep Deleted");
+            }
+            catch (Exception err)
+            {
+                return BadRequest(err.Message);
+            }
+        }
     }
-    //NOTE: edit, delete 
 }

@@ -47,7 +47,7 @@ namespace keypr.Services
            Vault toDelete = Get(vaultId);
             if (toDelete.CreatorId != userId)
         {
-            throw new Exception("Thats not your vault");
+            throw new Exception("Don't delete other people's vaults, jerk");
         }
             _repo.Delete(vaultId);
         }

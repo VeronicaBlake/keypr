@@ -24,12 +24,36 @@ namespace keypr.Services
 
         internal Keep Get(int id)
         {
-            Keep keep = _repo.Get(id);
+            Keep keep = _repo.GetById(id);
             if (keep == null)
             {
                 throw new Exception("Invalid Keep Id");
             }
             return keep;
+        }
+
+        internal Keep Edit(Keep updatedKeep)
+        {
+            Keep originalKeep = Get(updatedKeep.Id);
+            if (originalKeep.CreatorId != updatedKeep.CreatorId)
+            {
+                throw new Exception("Hands off Buddy");
+            }
+            originalKeep.Name = updatedKeep.Name ?? originalKeep.Name;
+            originalKeep.Description = updatedKeep.Description ?? originalKeep.Description;
+            originalKeep.Img = updatedKeep.Img ?? originalKeep.Img;
+            _repo.Edit(originalKeep);
+            return originalKeep;
+        }
+
+        internal void Delete(int keepId, string userId)
+        {
+            Keep toDelete = Get(keepId);
+            if (toDelete.CreatorId != userId)
+            {
+                throw new Exception("Don't delete other people's keeps");
+            }
+            _repo.Delete(keepId);
         }
     }
 }

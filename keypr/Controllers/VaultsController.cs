@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using CodeWorks.Auth0Provider;
 using keypr.Models;
@@ -85,8 +86,22 @@ namespace keypr.Controllers
                 return BadRequest(err.Message);
             }
         }
+
+        [HttpGet("{id}/keeps")]
+        public ActionResult<List<VaultKeepKeepViewModel>> GetKeeps(int id)
+        {
+            try
+            {
+                List<VaultKeepKeepViewModel> keep = _ks.GetVaultKeeps(id);
+                return Ok(keep);
+            }
+            catch (System.Exception err)
+            {
+                return BadRequest(err.Message);
+            }
+        }
        
     }
 }
-    //REVIEW why ActionResult sometimes? I forget }
+    //REVIEW why ActionResult sometimes? I forget
     //TODO populate the (╯°□°）╯︵ ┻━┻ creator 

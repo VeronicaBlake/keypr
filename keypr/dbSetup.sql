@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS keeps(
   keeps INT NOT NULL COMMENT 'how many times the keep has been kept in a vault',
   FOREIGN KEY (creatorId) REFERENCES accounts(id) ON DELETE CASCADE 
 ) default charset utf8 COMMENT '';
-CREATE TABLE IF NOT EXISTS vaultKeeps(
+CREATE TABLE IF NOT EXISTS vaultkeeps(
   id INT NOT NULL AUTO_INCREMENT primary key COMMENT 'primary key',
   createdAt DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT 'Time Created',
   updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Last Update',
@@ -39,3 +39,4 @@ CREATE TABLE IF NOT EXISTS vaultKeeps(
   FOREIGN KEY (vaultId) REFERENCES vaults(id) ON DELETE CASCADE,
   FOREIGN KEY (keepId) REFERENCES keeps(id) ON DELETE CASCADE
 ) default charset utf8 COMMENT '';
+

@@ -67,8 +67,21 @@ namespace keypr.Repositories
             ";
             newKeep.Id = _db.ExecuteScalar<int>(sql, newKeep);
             return GetById(newKeep.Id);
-
         }
+
+        internal List<VaultKeepKeepViewModel> GetVaultKeeps(int vaultId)
+        {
+            string sql = @"
+            SELECT 
+            k.*,
+            vk.id AS vaultKeepId
+            FROM vaultkeeps vk
+            JOIN keeps k ON vk.keepId = k.id
+            WHERE vk.vaultId = @vaultId;
+            ";
+            return _db.Query<VaultKeepKeepViewModel>(sql, new {vaultId}).ToList();
+        }
+
         public void Delete(int id)
         {
             string sql = "DELETE FROM keeps WHERE id = @id LIMIT 1;";

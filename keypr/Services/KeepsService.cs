@@ -55,5 +55,13 @@ namespace keypr.Services
             }
             _repo.Delete(keepId);
         }
+        internal List<VaultKeepKeepViewModel> GetVaultKeeps(int vaultId)
+        {
+            return _repo.GetVaultKeeps(vaultId);
+        }
+        internal List<VaultKeepKeepViewModel> GetKeepsForAccount(string id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

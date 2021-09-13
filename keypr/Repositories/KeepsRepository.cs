@@ -69,6 +69,25 @@ namespace keypr.Repositories
             return GetById(newKeep.Id);
         }
 
+        // internal List<VaultKeepKeepViewModel> GetKeepsByAccountId(string id)
+        // {
+        //     string sql = @"
+        //         SELECT
+        //         a.*,
+        //         k.*,
+        //         gm.id AS groupMemberId
+        //         FROM groupMembers gm
+        //         JOIN groups g ON gm.groupId = g.id
+        //         JOIN accounts a ON g.creatorId = a.id
+        //         WHERE gm.accountId = @accountId;
+        //         ";
+        //     return _db.Query<Profile, GroupMemberViewModel, GroupMemberViewModel>(sql, (prof, gmvm) =>
+        //         {
+        //             gmvm.Creator = prof;
+        //             return gmvm;
+        //         }, new { accountId }, splitOn: "id").ToList();
+        // }
+
         internal List<VaultKeepKeepViewModel> GetVaultKeeps(int vaultId)
         {
             string sql = @"

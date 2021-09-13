@@ -61,7 +61,7 @@ namespace keypr.Services
         }
         internal List<VaultKeepKeepViewModel> GetKeepsForAccount(string id)
         {
-            throw new NotImplementedException();
+            return _repo.GetKeepsByAccountId(id);
         }
     }
 }

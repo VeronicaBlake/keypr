@@ -43,6 +43,7 @@ namespace keypr.Controllers
         {
             try
             {
+                // Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
                 Vault vault = _service.Get(id);
                 return Ok(vault);
             }
@@ -100,6 +101,4 @@ namespace keypr.Controllers
         }
        
     }
-}
-    //REVIEW why ActionResult sometimes? I forget
-    //TODO populate the (╯°□°）╯︵ ┻━┻ creator 
+} 

@@ -21,7 +21,7 @@ namespace keypr.Services
         internal Vault Get(int id)
         {
             Vault found = _repo.GetById(id);
-            if (found == null)
+            if (found == null || found.IsPrivate == true )
             {
                 throw new Exception("Invalid Id");
             }
@@ -37,7 +37,7 @@ namespace keypr.Services
             }
             original.Name = updatedVault.Name ?? original.Name;
             original.Description = updatedVault.Description ?? original.Description;
-            // original.IsPrivate = updatedVault.IsPrivate;
+            original.IsPrivate = updatedVault.IsPrivate;
             original.Img = updatedVault.Img ?? original.Img;
             _repo.Edit(original);
             return original;
@@ -56,7 +56,7 @@ namespace keypr.Services
         internal List<Vault> GetVaultsByProfileId(string creatorId)
         {
           List<Vault> vaults = _repo.GetAll(creatorId);
-          return vaults;
+          return vaults.FindAll(v => v.IsPrivate == false && v.CreatorId == creatorId);
         }
     }
 }

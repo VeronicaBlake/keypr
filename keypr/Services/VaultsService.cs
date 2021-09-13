@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using keypr.Models;
 using keypr.Repositories;
 
@@ -50,6 +51,12 @@ namespace keypr.Services
             throw new Exception("Don't delete other people's vaults, jerk");
         }
             _repo.Delete(vaultId);
+        }
+
+        internal List<Vault> GetVaultsByProfileId(string creatorId)
+        {
+          List<Vault> vaults = _repo.GetAll(creatorId);
+          return vaults;
         }
     }
 }

@@ -1,69 +1,66 @@
 using System;
-using System.Threading.Tasks;
-using CodeWorks.Auth0Provider;
+using System.Collections.Generic;
 using keypr.Models;
 using keypr.Services;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace keypr.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
-    [Authorize]
+    [Route("/api/[controller]")]    
     public class ProfilesController : ControllerBase
     {
-        private readonly ProfilesService _profilesService;
-        // private readonly KeepsService _keepsService;
-        // private readonly VaultsService _vaultsService;
+        private readonly AccountService _accountService;
+        private readonly KeepsService _keepsService;
+        private readonly VaultsService _vaultsService;
 
-        public ProfilesController(ProfilesService profilesService)
+        public ProfilesController(AccountService accountService, KeepsService keepsService, VaultsService vaultsService)
         {
-            _profilesService = profilesService;
+            _accountService = accountService;
+            _keepsService = keepsService;
+            _vaultsService = vaultsService;
         }
 
-        [HttpGet]
-        public async Task<ActionResult<Profile>> Get()
+      [HttpGet("{id}")]
+       public ActionResult<Profile> Get(string id)
         {
             try
             {
-                Profile userInfo = await HttpContext.GetUserInfoAsync<Profile>();
-                return Ok(_profilesService.GetOrCreateProfile(userInfo));
+                Profile profile = _accountService.GetProfileById(id);
+                return profile;
             }
-            catch (Exception e)
+            catch (Exception err)
             {
-                return BadRequest(e.Message);
+                return BadRequest(err.Message);
             }
         }
         
-        // [HttpGet("vaults")]
-        // public async Task<ActionResult<List<VaultKeepVaultViewModel>>> GetVaults()
-        // {
-        //     try
-        //     {
-        //         Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
-        //         List<VaultKeepVaultViewModel> vaults = _vaultsService.GetVaultsForAccount(userInfo.Id);
-        //         return Ok(vaults);
-        //     }
-        //     catch (Exception e)
-        //     {
-        //     return BadRequest(e.Message);
-        //     } 
-        // }
+        [HttpGet("{id}/vaults")]
+        public ActionResult<List<Vault>> GetVaultsAsync(string id)
+        {
+            try
+            {
+                List<Vault> vaults = _vaultsService.GetVaultsByProfileId(id);
+                return vaults;
+            }
+            catch (Exception e)
+            {
+            return BadRequest(e.Message);
+            } 
+        }
 
-        // [HttpGet("keeps")]
-        // public async Task<ActionResult<List<VaultKeepKeepViewModel>>> GetKeeps()
-        // {
-        //     try
-        //     {
-        //         Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
-        //         List<VaultKeepKeepViewModel> keeps = _keepsService.GetKeepsForAccount(userInfo.Id);
-        //         return Ok(keeps);
-        //     }
-        //     catch (Exception e)
-        //     {
-        //     return BadRequest(e.Message);
-        //     } 
-        // }
+        [HttpGet("{id}/keeps")]
+        public ActionResult<List<Keep>> GetVaultsByProfileId(string id)
+        {
+           try
+            {
+                List<Keep> keeps = _keepsService.GetKeepsByProfileId(id);
+                return keeps;
+            }
+           catch (Exception e)
+            {
+               return BadRequest(e.Message);
+            }
+        }
     }
 }

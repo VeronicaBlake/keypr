@@ -59,9 +59,11 @@ namespace keypr.Services
         {
             return _repo.GetVaultKeeps(vaultId);
         }
-        internal List<VaultKeepKeepViewModel> GetKeepsForAccount(string id)
+
+        internal List<Keep> GetKeepsByProfileId(string profileId)
         {
-            return _repo.GetKeepsByAccountId(id);
+            List<Keep> keeps = _repo.GetKeepsByProfileId(profileId);
+          return keeps;
         }
     }
 }

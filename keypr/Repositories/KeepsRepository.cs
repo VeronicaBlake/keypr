@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -70,29 +69,22 @@ namespace keypr.Repositories
             return GetById(newKeep.Id);
         }
 
-        internal List<VaultKeepKeepViewModel> GetKeepsByAccountId(string id)
+        internal List<Keep> GetKeepsByProfileId(string creatorId)
         {
-            throw new NotImplementedException();
+            string sql = @"
+            SELECT
+            a.*,
+            k.*
+            FROM keeps k
+            JOIN accounts a ON a.id = k.creatorId
+            WHERE k.creatorId = @creatorid
+            ";
+            return _db.Query<Profile, Keep, Keep>(sql, (prof, keep) =>
+            {
+                keep.Creator = prof;
+                return keep;
+            }, new { creatorId }, splitOn: "id").ToList<Keep>();
         }
-
-        // internal List<VaultKeepKeepViewModel> GetKeepsByAccountId(string id)
-        // {
-        //     string sql = @"
-        //         SELECT
-        //         a.*,
-        //         k.*,
-        //         gm.id AS groupMemberId
-        //         FROM groupMembers gm
-        //         JOIN groups g ON gm.groupId = g.id
-        //         JOIN accounts a ON g.creatorId = a.id
-        //         WHERE gm.accountId = @accountId;
-        //         ";
-        //     return _db.Query<Profile, GroupMemberViewModel, GroupMemberViewModel>(sql, (prof, gmvm) =>
-        //         {
-        //             gmvm.Creator = prof;
-        //             return gmvm;
-        //         }, new { accountId }, splitOn: "id").ToList();
-        // }
 
         internal List<VaultKeepKeepViewModel> GetVaultKeeps(int vaultId)
         {

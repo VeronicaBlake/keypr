@@ -30,8 +30,6 @@ namespace keypr.Controllers
             {
                 Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
                 newVault.CreatorId = userInfo.Id;
-                newVault.Creator = userInfo;
-                //REVIEW why doesn't the above line populate the creator? 
                 Vault vault = _service.Create(newVault);
                 return Ok(vault);
             }

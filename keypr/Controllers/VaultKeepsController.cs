@@ -19,8 +19,6 @@ namespace keypr.Controllers
     {
       _vkservice = vkservice;
     }
-
-    [Authorize]
     [HttpPost]
     public async Task<ActionResult<VaultKeep>> Create([FromBody] VaultKeep newVK)
     {
@@ -37,22 +35,21 @@ namespace keypr.Controllers
         return BadRequest(err.Message);
       }
     }
-
-    [Authorize]
     [HttpDelete("{id}")]
-    public async Task<ActionResult<String>> Delete(int vkId)
-    {
+    [Authorize]
+      public async Task<ActionResult<String>> Delete(int id)
+      {
       try
-      {
-        Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
-        string resultStr = _vkservice.Delete(vkId, userInfo.Id);
-        return Ok(resultStr);
-      }
+        {
+          Profile userInfo = await HttpContext.GetUserInfoAsync<Profile>();
+          _vkservice.Delete(id, userInfo.Id);
+          return Ok("Keep removed from Vault");
+        }
       catch (Exception err)
-      {
-        return BadRequest(err.Message);
+        {
+          return BadRequest(err.Message);
+        }
       }
-    }
 
   }
 }

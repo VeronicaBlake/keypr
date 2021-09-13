@@ -12,10 +12,6 @@ namespace keypr.Models
     public bool IsPrivate { get; set; }
     public string Img { get; set; }
     public string CreatorId { get; set; }
-    public Profile Creator;
+    public Profile Creator { get; set; }
     }
-    public class VaultKeepVaultViewModel : Vault
-  {
-    public int VaultKeepId { get; set; }
-  }
 }

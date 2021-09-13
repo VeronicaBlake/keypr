@@ -23,8 +23,7 @@ namespace keypr.Services
             }
             return _vkRepo.Create(newVK);
         }
-
-        private VaultKeep GetById(int id)
+        internal VaultKeep Get(int id)
         {
             VaultKeep found = _vkRepo.GetById(id);
             if (found == null)
@@ -33,22 +32,14 @@ namespace keypr.Services
             }
             return found;
         }
-
-        internal string Delete(int id, string accountId)
+        internal void Delete(int vkId, string userId)
         {
-            VaultKeep vk = GetById(id);
-            if (vk.CreatorId == accountId)
+           VaultKeep toDelete = Get(vkId);
+            if (toDelete.CreatorId != userId)
             {
-                _vkRepo.Delete(id);
-                return "Removed keep from vault";
+                throw new Exception("Don't move other people's keeps from vaults");
             }
-            Vault v = _vaultRepo.GetById(vk.VaultId);
-            if (v.CreatorId == accountId)
-            {
-                _vkRepo.Delete(id);
-                return "Keep removed from vault";
-            }
-            throw new Exception("Invalid Access to this vault's keeps");
+            _vkRepo.Delete(vkId); 
         }
     }
 }

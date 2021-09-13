@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -35,7 +36,7 @@ namespace keypr.Repositories
             a.*, 
             k.*
             FROM keeps k 
-            JOIN accounts a ON a.id = k.creatorId
+            JOIN accounts a ON k.creatorId = a.id
             WHERE k.id = @id;";
             return _db.Query<Profile, Keep, Keep>(sql, (profile, keep)=>
             {
@@ -67,6 +68,11 @@ namespace keypr.Repositories
             ";
             newKeep.Id = _db.ExecuteScalar<int>(sql, newKeep);
             return GetById(newKeep.Id);
+        }
+
+        internal List<VaultKeepKeepViewModel> GetKeepsByAccountId(string id)
+        {
+            throw new NotImplementedException();
         }
 
         // internal List<VaultKeepKeepViewModel> GetKeepsByAccountId(string id)

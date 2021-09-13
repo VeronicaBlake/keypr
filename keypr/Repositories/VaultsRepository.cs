@@ -17,20 +17,20 @@ namespace keypr.Repositories
         {
             string sql = @"
                         SELECT 
-                        v.*, 
-                        a.*
+                        a.*, 
+                        v.*
                         FROM vaults v
                         JOIN accounts a ON v.creatorId = a.id
-                        WHERE v.id = @id
+                        WHERE v.id = @id;
             ";
-            return _db.Query<Vault, Profile, Vault>(sql, (v,p) =>
+            return _db.Query<Profile, Vault, Vault>(sql, (profile, vault) =>
             {
-                v.Creator = p;
-                return v; 
-            }, new { id }).FirstOrDefault();
+                vault.Creator = profile;
+                return vault; 
+            }, new { id }, splitOn: "id").FirstOrDefault();
         }
 
-        internal Vault Create(Vault newVault)
+        public Vault Create(Vault newVault)
         {  
             string sql = @"
             INSERT INTO vaults
@@ -39,9 +39,8 @@ namespace keypr.Repositories
             (@CreatorId, @Name, @Img, @Description, @IsPrivate);
             SELECT LAST_INSERT_ID();
             ";
-            newVault.Id = _db.ExecuteScalar<int>(sql, newVault);
-            return newVault;
-            //TODO need to populate the creator, how do I do that again?
+            int id = _db.ExecuteScalar<int>(sql, newVault);
+            return GetById(id);
         }
 
         public Vault Edit(Vault updatedVault)

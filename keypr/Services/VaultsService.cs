@@ -18,26 +18,32 @@ namespace keypr.Services
         {
            return _repo.Create(newVault);
         }
-        internal Vault Get(int id)
+        internal Vault Get(int id, string userId= null)
         {
             Vault found = _repo.GetById(id);
-            if (found == null || found.IsPrivate == true )
+            if (found == null)
             {
                 throw new Exception("Invalid Id");
+            }
+            if (found.IsPrivate == true && found.CreatorId != userId)
+            {
+                throw new Exception("Hands off, buddy");
             }
             return found;
         }
 
+
+
         internal Vault Edit(Vault updatedVault)
         {
-            Vault original = Get(updatedVault.Id);
+            Vault original = Get(updatedVault.Id, updatedVault.CreatorId);
             if (original.CreatorId != updatedVault.CreatorId)
             {
                 throw new Exception("You can't edit someone else's vault");
             }
             original.Name = updatedVault.Name ?? original.Name;
             original.Description = updatedVault.Description ?? original.Description;
-            original.IsPrivate = updatedVault.IsPrivate;
+            original.IsPrivate = updatedVault.IsPrivate ?? original.IsPrivate;
             original.Img = updatedVault.Img ?? original.Img;
             _repo.Edit(original);
             return original;
@@ -45,7 +51,7 @@ namespace keypr.Services
 
         internal void Delete(int vaultId, string userId)
         {
-           Vault toDelete = Get(vaultId);
+           Vault toDelete = Get(vaultId, userId);
             if (toDelete.CreatorId != userId)
         {
             throw new Exception("Don't delete other people's vaults, jerk");
@@ -53,10 +59,12 @@ namespace keypr.Services
             _repo.Delete(vaultId);
         }
 
-        internal List<Vault> GetVaultsByProfileId(string creatorId)
+        internal List<Vault> GetVaultsByProfileId(string profileId)
         {
-          List<Vault> vaults = _repo.GetAll(creatorId);
-          return vaults.FindAll(v => v.IsPrivate == false && v.CreatorId == creatorId);
+          List<Vault> vaults = _repo.GetAll(profileId);
+          return vaults.FindAll(v => v.IsPrivate == false);
+
         }
+        //TODO duplicate this for GetVaultsByAccountId so that this doesn't filter. it will just get you everything on your account
     }
 }

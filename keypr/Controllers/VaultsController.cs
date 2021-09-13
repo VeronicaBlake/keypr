@@ -39,12 +39,12 @@ namespace keypr.Controllers
             }
         }
         [HttpGet("{id}")]
-        public ActionResult<Vault> Get(int id)
+        public async Task<ActionResult<Vault>> Get(int id)
         {
             try
             {
-                // Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
-                Vault vault = _service.Get(id);
+                Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
+                Vault vault = _service.Get(id, userInfo?.Id);
                 return Ok(vault);
             }
             catch (Exception err)
@@ -54,7 +54,7 @@ namespace keypr.Controllers
         }
         [HttpPut("{id}")]
         [Authorize]
-        public async Task<ActionResult<Vault>> Edit([FromBody] Vault updatedVault, int id)
+        public async Task<ActionResult<Vault>> Edit(Vault updatedVault, int id)
         {
         try
         {

@@ -51,7 +51,8 @@ namespace keypr.Repositories
             SET
             name = @Name,
             description = @Description,
-            img = @Img
+            img = @Img,
+            isPrivate = @IsPrivate
             WHERE id = @Id
             ;";
             _db.Execute(sql, updatedVault);

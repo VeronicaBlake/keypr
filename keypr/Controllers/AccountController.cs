@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using keypr.Models;
 using keypr.Services;
@@ -35,6 +34,5 @@ namespace keypr.Controllers
             }
         }
     }
-
-
+    //TODO get vaults so that you can get your own vaults [HttpGet{id}/vaults] that won't need to filter 
 }

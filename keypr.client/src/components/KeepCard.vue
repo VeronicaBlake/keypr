@@ -1,13 +1,19 @@
 <template>
-  <div class="card bg-dark text-white component-rounded" style="width:18rem">
-    <img class="card-img" src="keep.img" alt="Keep Image">
-    <div class="card-img-overlay">
-      <h5 class="card-title">
-        {{ keep.name }}
-      </h5>
-      <p class="card-text">
-        {{ keep.description }}, {{ keep.creator }}
-      </p>
+  <div class="card-container">
+    <div class="card text-white mt-2 mx-2" style="">
+      <img class=" card-img card-img-top" :src="keep.img" :alt="keep.name">
+      <div class="card-img-overlay">
+        <div class="row d-flex align-content-end fillDiv">
+          <div class="col-12">
+            <div class="d-flex justify-content-end y-bottom">
+              <h1 class="card-title shadowed">
+                {{ keep.name }}
+                <img class="rounded-circle creator" :src="keep.creator.picture" :alt="keep.creator.name">
+              </h1>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -28,5 +34,23 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.card-img{
+  object-fit: contain;
+  position: relative
+}
+.shadowed{
+  text-shadow: 2px 2px 20px rgb(19, 18, 18)
+}
+.creator{
+  max-width: 50px;
+  max-height: 50px
+}
+.y-bottom {
+  align-self: flex-end;
+}
+.fillDiv{
+  width: 100%;
+  height: 100%
+}
 
 </style>

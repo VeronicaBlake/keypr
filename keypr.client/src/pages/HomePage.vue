@@ -1,21 +1,22 @@
 <template>
   <div class="home flex-grow-1 d-flex flex-column align-items-center justify-content-center">
-    <div class="row card-columns">
-      <div class="col" v-for="k in keeps" :key="k.id">
-        <Keep :keep="k" />
-      </div>
+    <div class="card-columns ">
+      <KeepCard v-for="k in state.keeps" :key="k.id" :keep="k" />
     </div>
   </div>
 </template>
 
 <script>
-import { computed, onMounted } from '@vue/runtime-core'
+import { computed, onMounted, reactive } from '@vue/runtime-core'
 import Pop from '../utils/Notifier'
 import { logger } from '../utils/Logger'
 import { keepsService } from '../services/keepsService'
 import { AppState } from '../AppState'
 export default {
   setup() {
+    const state = reactive({
+      keeps: computed(() => AppState.keeps)
+    })
     onMounted(async() => {
       try {
         await keepsService.getAllKeeps()
@@ -25,6 +26,7 @@ export default {
       }
     })
     return {
+      state,
       keeps: computed(() => AppState.keeps)
     }
   }
@@ -39,5 +41,10 @@ export default {
     height: 200px;
     width: 200px;
   }
+}
+
+body {
+  margin: 0;
+  padding: 1rem;
 }
 </style>

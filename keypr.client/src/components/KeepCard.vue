@@ -1,6 +1,6 @@
 <template>
   <div class="card-container">
-    <div class="card text-white mt-2 mx-2" style="">
+    <div class="card bg-dark text-white mt-2 mx-2" style="">
       <img class=" card-img card-img-top" :src="keep.img" :alt="keep.name">
       <div class="card-img-overlay">
         <div class="row d-flex align-content-end fillDiv">
@@ -16,6 +16,7 @@
       </div>
     </div>
   </div>
+  <!-- <KeepDetailsModal :keep="keep" /> -->
 </template>
 
 <script>
@@ -39,7 +40,7 @@ export default {
   position: relative
 }
 .shadowed{
-  text-shadow: 2px 2px 20px rgb(19, 18, 18)
+  text-shadow: 2px 2px 20px rgb(7, 7, 7)
 }
 .creator{
   max-width: 50px;

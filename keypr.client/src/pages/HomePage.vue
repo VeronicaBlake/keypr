@@ -10,7 +10,7 @@
 import { computed, onMounted, reactive } from '@vue/runtime-core'
 import Pop from '../utils/Notifier'
 import { logger } from '../utils/Logger'
-import { keepsService } from '../services/keepsService'
+import { keepsService } from '../services/KeepsService'
 import { AppState } from '../AppState'
 export default {
   setup() {

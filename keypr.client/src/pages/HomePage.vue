@@ -1,15 +1,33 @@
 <template>
   <div class="home flex-grow-1 d-flex flex-column align-items-center justify-content-center">
-    <img src="https://bcw.blob.core.windows.net/public/img/8600856373152463" alt="CodeWorks Logo">
-    <h1 class="my-5 bg-dark text-light p-3 rounded d-flex align-items-center">
-      <span class="mx-2 text-white">Vue 3 Starter</span>
-    </h1>
+    <div class="row card-columns">
+      <div class="col" v-for="k in keeps" :key="k.id">
+        <Keep :keep="k" />
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
+import { computed, onMounted } from '@vue/runtime-core'
+import Pop from '../utils/Notifier'
+import { logger } from '../utils/Logger'
+import { keepsService } from '../services/keepsService'
+import { AppState } from '../AppState'
 export default {
-  name: 'Home'
+  setup() {
+    onMounted(async() => {
+      try {
+        await keepsService.getAllKeeps()
+      } catch (error) {
+        Pop.toast('Unable to get all keeps', error)
+        logger.log(error)
+      }
+    })
+    return {
+      keeps: computed(() => AppState.keeps)
+    }
+  }
 }
 </script>
 

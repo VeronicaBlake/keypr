@@ -5,6 +5,7 @@ using keypr.Services;
 using CodeWorks.Auth0Provider;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 
 namespace keypr.Controllers
 {
@@ -13,10 +14,12 @@ namespace keypr.Controllers
     public class AccountController : ControllerBase
     {
         private readonly AccountService _accountService;
+        private readonly VaultsService _vaultsService;
 
-        public AccountController(AccountService accountService)
+        public AccountController(AccountService accountService, VaultsService vaultsService)
         {
             _accountService = accountService;
+            _vaultsService = vaultsService;
         }
 
         [HttpGet]
@@ -33,6 +36,20 @@ namespace keypr.Controllers
                 return BadRequest(e.Message);
             }
         }
+
+         [HttpGet("{id}/vaults")]
+         [Authorize]
+        public ActionResult<List<Vault>> GetMyVaults(string id)
+        {
+            try
+            {
+                List<Vault> vaults = _vaultsService.GetVaultsByAccountId(id);
+                return vaults;
+            }
+            catch (Exception e)
+            {
+            return BadRequest(e.Message);
+            } 
+        }
     }
-    //TODO get vaults so that you can get your own vaults [HttpGet{id}/vaults] that won't need to filter 
 }

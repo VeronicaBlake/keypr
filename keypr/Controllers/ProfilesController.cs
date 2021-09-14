@@ -49,6 +49,26 @@ namespace keypr.Controllers
             } 
         }
 
+        // [HttpGet("{id}/vaults")]
+        // public async Task<List<Vault>> GetVaultsAsync(string id, Exception error)
+        // {
+        //     try
+        //     {
+        //         Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
+        //         if(id == userInfo.Id)
+        //         {
+        //             List<Vault> accountVaults = _vaultsService.GetVaultsByAccountId(id);
+        //             return accountVaults;
+        //         }
+        //         List<Vault> vaults = _vaultsService.GetVaultsByProfileId(id);
+        //         return vaults;
+        //     }
+        //     catch (Exception e)
+        //     {
+        //         throw new Exception(e.Message);
+        //     } 
+        // }
+
         [HttpGet("{id}/keeps")]
         public ActionResult<List<Keep>> GetVaultsByProfileId(string id)
         {

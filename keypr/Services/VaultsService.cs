@@ -65,6 +65,11 @@ namespace keypr.Services
           return vaults.FindAll(v => v.IsPrivate == false);
 
         }
-        //TODO duplicate this for GetVaultsByAccountId so that this doesn't filter. it will just get you everything on your account
+
+        internal List<Vault> GetVaultsByAccountId(string accountId)
+        {
+          List<Vault> vaults = _repo.GetAll(accountId);
+          return vaults;
+        }
     }
 }

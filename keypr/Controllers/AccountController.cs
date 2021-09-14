@@ -5,7 +5,6 @@ using keypr.Services;
 using CodeWorks.Auth0Provider;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
 
 namespace keypr.Controllers
 {
@@ -35,21 +34,6 @@ namespace keypr.Controllers
             {
                 return BadRequest(e.Message);
             }
-        }
-
-         [HttpGet("{id}/vaults")]
-         [Authorize]
-        public ActionResult<List<Vault>> GetMyVaults(string id)
-        {
-            try
-            {
-                List<Vault> vaults = _vaultsService.GetVaultsByAccountId(id);
-                return vaults;
-            }
-            catch (Exception e)
-            {
-            return BadRequest(e.Message);
-            } 
         }
     }
 }

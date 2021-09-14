@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using keypr.Models;
 using keypr.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -36,39 +37,40 @@ namespace keypr.Controllers
         }
         
         [HttpGet("{id}/vaults")]
-        public ActionResult<List<Vault>> GetVaultsAsync(string id)
+        public Task<List<Vault>> GetVaultsAsync(string id)
         {
             try
             {
-                List<Vault> vaults = _vaultsService.GetVaultsByProfileId(id);
-                return vaults;
+                Profile userInfo = _accountService.GetProfileById(id);
+                List<Vault> vaults = _vaultsService.GetVaultsByAccountId(userInfo.Id);
+                return Task.FromResult(vaults);
             }
             catch (Exception e)
             {
-            return BadRequest(e.Message);
+            throw new Exception(e.Message);
             } 
         }
-
+        
         // [HttpGet("{id}/vaults")]
-        // public async Task<List<Vault>> GetVaultsAsync(string id, Exception error)
+        // public async Task<List<Vault>> GetVaultsAsync(string id)
         // {
         //     try
         //     {
-        //         Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
-        //         if(id == userInfo.Id)
-        //         {
-        //             List<Vault> accountVaults = _vaultsService.GetVaultsByAccountId(id);
-        //             return accountVaults;
+        //         Profile userInfo = _accountService.GetProfileById(id);
+        //         Account privateVaultOwner = await HttpContext.GetUserInfoAsync<Account>();
+        //         if(userInfo.Id != privateVaultOwner.Id){
+        //             List<Vault> profileVaults = _vaultsService.GetVaultsByProfileId(id);
+        //             return profileVaults;
         //         }
-        //         List<Vault> vaults = _vaultsService.GetVaultsByProfileId(id);
-        //         return vaults;
+        //             List<Vault> vaults = _vaultsService.GetVaultsByAccountId(id);
+        //             return vaults;
         //     }
         //     catch (Exception e)
         //     {
-        //         throw new Exception(e.Message);
+        //     throw new Exception(e.Message);
         //     } 
         // }
-
+        
         [HttpGet("{id}/keeps")]
         public ActionResult<List<Keep>> GetVaultsByProfileId(string id)
         {

@@ -8,9 +8,13 @@ namespace keypr.Services
     public class KeepsService
     {
         private readonly KeepsRepository _repo;
-        public KeepsService(KeepsRepository repo)
+
+        private readonly VaultsRepository _vaultRepo;
+
+        public KeepsService(KeepsRepository repo,  VaultsRepository vaultRepo)
         {
             _repo = repo;
+             _vaultRepo = vaultRepo;
         }
         internal Keep Create(Keep newKeep)
         {
@@ -57,8 +61,29 @@ namespace keypr.Services
         }
         internal List<VaultKeepKeepViewModel> GetVaultKeeps(int vaultId)
         {
+            Vault foundVault = _vaultRepo.GetById(vaultId);
+            if(foundVault.IsPrivate == true)
+            {
+             throw new Exception("Get outta here with that.");
+            }
             return _repo.GetVaultKeeps(vaultId);
         }
+
+          // internal List<VaultKeepKeepViewModel> GetVaultKeeps(int id)
+        // {
+        //     VaultKeep found = _vkRepo.GetById(id);
+            // Vault foundVault = _vaultRepo.GetById(found.VaultId);
+            // List<VaultKeepKeepViewModel> keeps = _repo.GetVaultKeeps(found.VaultId);
+            // if (found == null)
+            // {
+            //     throw new Exception("Invalid Id");
+            // }
+            // if(foundVault.IsPrivate == false)
+            // {
+            //  throw new Exception("Get outta here with that.");
+            // }
+        //     return keeps;
+        // }
 
         internal List<Keep> GetKeepsByProfileId(string profileId)
         {

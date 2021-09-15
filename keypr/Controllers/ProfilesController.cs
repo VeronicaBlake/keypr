@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using CodeWorks.Auth0Provider;
 using keypr.Models;
 using keypr.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -37,39 +38,18 @@ namespace keypr.Controllers
         }
         
         [HttpGet("{id}/vaults")]
-        public Task<List<Vault>> GetVaultsAsync(string id)
+        public async Task<List<Vault>> GetVaultsAsync(string id)
         {
             try
             {
-                Profile userInfo = _accountService.GetProfileById(id);
-                List<Vault> vaults = _vaultsService.GetVaultsByAccountId(userInfo.Id);
-                return Task.FromResult(vaults);
+                Account user = await HttpContext.GetUserInfoAsync<Account>();
+                return _vaultsService.GetVaultsByProfileId(user.Id, id);
             }
             catch (Exception e)
             {
             throw new Exception(e.Message);
             } 
         }
-        
-        // [HttpGet("{id}/vaults")]
-        // public async Task<List<Vault>> GetVaultsAsync(string id)
-        // {
-        //     try
-        //     {
-        //         Profile userInfo = _accountService.GetProfileById(id);
-        //         Account privateVaultOwner = await HttpContext.GetUserInfoAsync<Account>();
-        //         if(userInfo.Id != privateVaultOwner.Id){
-        //             List<Vault> profileVaults = _vaultsService.GetVaultsByProfileId(id);
-        //             return profileVaults;
-        //         }
-        //             List<Vault> vaults = _vaultsService.GetVaultsByAccountId(id);
-        //             return vaults;
-        //     }
-        //     catch (Exception e)
-        //     {
-        //     throw new Exception(e.Message);
-        //     } 
-        // }
         
         [HttpGet("{id}/keeps")]
         public ActionResult<List<Keep>> GetVaultsByProfileId(string id)

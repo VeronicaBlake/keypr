@@ -66,13 +66,25 @@ namespace keypr.Services
 
         // }
 
-        internal List<Vault> GetVaultsByAccountId(string userinfoId, bool isPrivate = true)
+        // internal List<Vault> GetVaultsByAccountId(string userinfoId, bool isPrivate = true)
+        // {
+        //   List<Vault> vaults = _repo.GetAll(userinfoId);
+        //   if(isPrivate)
+        //   {
+        //     vaults = vaults.FindAll(v => v.IsPrivate == true);
+        //   }
+        //   return vaults;
+        // }
+
+
+        internal List<Vault> GetVaultsByProfileId(string userId, string ownerId)
         {
-          List<Vault> vaults = _repo.GetAll(userinfoId);
-          if(isPrivate)
+          List<Vault> vaults = _repo.GetAll(ownerId);
+          if(userId == ownerId)
           {
-            vaults = vaults.FindAll(v => v.IsPrivate == true);
+            return vaults;
           }
+          vaults = vaults.FindAll(v => v.IsPrivate == false);
           return vaults;
         }
     }

@@ -26,11 +26,16 @@ namespace keypr.Services
         internal VaultKeep Get(int id)
         {
             VaultKeep found = _vkRepo.GetById(id);
+            Vault foundVault = _vaultRepo.GetById(found.VaultId);
             if (found == null)
             {
                 throw new Exception("Invalid Id");
             }
+            if(foundVault.IsPrivate == false)
+            {
             return found;
+            }
+            throw new Exception("Get outta here with that.");
         }
         internal void Delete(int vkId, string userId)
         {

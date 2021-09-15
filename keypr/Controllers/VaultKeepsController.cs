@@ -20,6 +20,7 @@ namespace keypr.Controllers
       _vkservice = vkservice;
     }
     [HttpPost]
+    [Authorize]
     public async Task<ActionResult<VaultKeep>> Create([FromBody] VaultKeep newVK)
     {
       try

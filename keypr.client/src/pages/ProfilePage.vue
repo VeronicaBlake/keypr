@@ -20,7 +20,7 @@
             <h2>Vaults:</h2>
           </div>
           <div class="col">
-            <h2>Keeps:</h2>
+            <h2>Keeps: {{ state.activeKeeps.length }}</h2>
           </div>
         </div>
       </div>
@@ -47,9 +47,7 @@
           </h2>
         </div>
         <div class="row">
-          <div class="card-columns ">
-            <KeepCard v-for="k in state.keeps" :key="k.id" :keep="k" />
-          </div>
+          <KeepCard v-for="k in state.activeKeeps" :key="k.id" :keep="k" />
         </div>
       </div>
     </div>
@@ -64,35 +62,31 @@ import { profilesService } from '../services/ProfilesService'
 // import { keepsService } from '../services/KeepsService'
 import Notification from '../utils/Notifier'
 import { AppState } from '../AppState'
-import { accountService } from '../services/AccountService'
 export default {
   name: 'ProfilePage',
   setup() {
     const route = useRoute()
     const state = reactive({
+      activeKeeps: computed(() => AppState.activeKeeps),
       newKeep: {},
       newVault: {},
       activeProfile: computed(() => AppState.activeProfile),
+      activeVaults: computed(() => AppState.activeVaults),
       user: computed(() => AppState.user),
-      account: computed(() => AppState.account),
-      keeps: computed(() => AppState.activeKeeps)
+      account: computed(() => AppState.account)
     })
     onMounted(async() => {
       try {
         await profilesService.getActiveProfile(route.params.id)
-        await profilesService.getProfileVaults(route.params.id)
         await profilesService.getProfileKeeps(route.params.id)
-        await accountService.getProfile(route.params.id)
+        await profilesService.getProfileVaults(route.params.id)
       } catch (error) {
         Notification.toast(error, 'error')
       }
     })
     return {
       state,
-      route,
-      activeKeeps: computed(() => AppState.activeKeeps),
-      activeVaults: computed(() => AppState.activeVaults),
-      keeps: computed(() => AppState.keeps)
+      route
       // async create vault - option to make it private
       // maybe create private vault too?
       // async create keep

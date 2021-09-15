@@ -8,9 +8,9 @@
             <div class="d-flex justify-content-end y-bottom">
               <h1 class="card-title shadowed">
                 {{ keep.name }}
-                <!-- <router-link :to="{name: 'AccountPage', params: {id:keep.creatorId} }"> -->
-                <img class="rounded-circle creator" :src="keep.creator.picture" :alt="keep.creator.name">
-                <!-- </router-link> -->
+                <router-link :to="{name: 'Profile', params: {id:keep.creatorId}}">
+                  <img class="rounded-circle creator" :src="keep.creator.picture" :alt="keep.creator.name">
+                </router-link>
               </h1>
             </div>
           </div>

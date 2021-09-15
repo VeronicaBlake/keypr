@@ -17,7 +17,7 @@
         </div>
         <div class="row d-flex flex-column mt-3">
           <div class="col">
-            <h2>Vaults:</h2>
+            <h2>Vaults:{{ state.activeVaults.length }}</h2>
           </div>
           <div class="col">
             <h2>Keeps: {{ state.activeKeeps.length }}</h2>
@@ -34,7 +34,7 @@
           </h2>
         </div>
         <div class="row">
-          <p>v-for for the vault card components goes here</p>
+          <VaultProfileCard v-for="v in state.activeVaults" :key="v.id" :vault="v" />
         </div>
       </div>
     </div>
@@ -47,7 +47,7 @@
           </h2>
         </div>
         <div class="row">
-          <KeepCard v-for="k in state.activeKeeps" :key="k.id" :keep="k" />
+          <KeepProfileCard v-for="k in state.activeKeeps" :key="k.id" :keep="k" />
         </div>
       </div>
     </div>
@@ -67,10 +67,10 @@ export default {
   setup() {
     const route = useRoute()
     const state = reactive({
-      activeKeeps: computed(() => AppState.activeKeeps),
       newKeep: {},
       newVault: {},
       activeProfile: computed(() => AppState.activeProfile),
+      activeKeeps: computed(() => AppState.activeKeeps),
       activeVaults: computed(() => AppState.activeVaults),
       user: computed(() => AppState.user),
       account: computed(() => AppState.account)

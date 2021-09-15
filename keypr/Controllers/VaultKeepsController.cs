@@ -30,6 +30,9 @@ namespace keypr.Controllers
         VaultKeep vaultKeep = _vkservice.Create(newVK, userInfo.Id);
         return Ok(vaultKeep);
         //TODO how to ensure that the vault creator is the one creating this?
+        //find the vault the keep is going to be added to 
+        //find the creator of that vault 
+        //if that creator is not == userInfo, throw the exception
       }
       catch (Exception err)
       {

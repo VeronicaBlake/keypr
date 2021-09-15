@@ -1,20 +1,22 @@
 <template>
-  <div class="card-container my-5">
-    <div class="card text-white my-2 mx-2" style="">
-      <img class=" card-img card-img-top" :src="vault.img" :alt="vault.name">
-      <div class="card-img-overlay">
-        <div class="row d-flex align-content-end fillDiv">
-          <div class="col-12">
-            <div class="d-flex justify-content-end y-bottom">
-              <h1 class="card-title shadowed">
-                {{ vault.name }}
-              </h1>
+  <router-link :to="{name: 'Vault', params: {id:vault.id}}">
+    <div class="card-container my-5">
+      <div class="card text-white my-2 mx-2" style="">
+        <img class=" card-img card-img-top" :src="vault.img" :alt="vault.name">
+        <div class="card-img-overlay">
+          <div class="row d-flex align-content-end fillDiv">
+            <div class="col-12">
+              <div class="d-flex justify-content-end y-bottom">
+                <h1 class="card-title shadowed">
+                  {{ vault.name }}
+                </h1>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
+  </router-link>
 </template>
 
 <script>

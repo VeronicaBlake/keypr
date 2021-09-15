@@ -58,8 +58,6 @@
 import { computed, onMounted, reactive } from '@vue/runtime-core'
 import { useRoute } from 'vue-router'
 import { profilesService } from '../services/ProfilesService'
-// import { vaultsService } from '../services/VaultsService'
-// import { keepsService } from '../services/KeepsService'
 import Notification from '../utils/Notifier'
 import { AppState } from '../AppState'
 export default {

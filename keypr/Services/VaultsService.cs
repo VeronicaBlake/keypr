@@ -77,12 +77,16 @@ namespace keypr.Services
         // }
 
 
-        internal List<Vault> GetVaultsByProfileId(string userId, string ownerId)
+        internal List<Vault> GetVaultsByProfileId(string ownerId, string userId)
         {
           List<Vault> vaults = _repo.GetAll(ownerId);
           if(userId == ownerId)
           {
             return vaults;
+          }
+          if(userId == null){
+          vaults = vaults.FindAll(v => v.IsPrivate == false);
+          return vaults;
           }
           vaults = vaults.FindAll(v => v.IsPrivate == false);
           return vaults;

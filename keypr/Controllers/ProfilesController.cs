@@ -43,7 +43,7 @@ namespace keypr.Controllers
             try
             {
                 Account user = await HttpContext.GetUserInfoAsync<Account>();
-                return _vaultsService.GetVaultsByProfileId(user.Id, id);
+                return _vaultsService.GetVaultsByProfileId(id, user?.Id);
             }
             catch (Exception e)
             {

@@ -14,10 +14,12 @@ namespace keypr.Controllers
   public class VaultKeepsController : ControllerBase
   {
     private readonly VaultKeepsService _vkservice;
+    private readonly VaultsService _vaultsService;
 
-    public VaultKeepsController(VaultKeepsService vkservice)
+    public VaultKeepsController(VaultKeepsService vkservice, VaultsService vaultsService)
     {
       _vkservice = vkservice;
+      _vaultsService = vaultsService;
     }
     [HttpPost]
     [Authorize]
@@ -26,9 +28,13 @@ namespace keypr.Controllers
       try
       {
         Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
+        Vault vaultAddingTo = _vaultsService.Get(newVK.VaultId, userInfo.Id);
+        if(vaultAddingTo.CreatorId == userInfo.Id){
         newVK.CreatorId = userInfo.Id;
         VaultKeep vaultKeep = _vkservice.Create(newVK, userInfo.Id);
         return Ok(vaultKeep);
+        }
+        return BadRequest("Don't add keeps to other people's vaults, dude.");
         //TODO how to ensure that the vault creator is the one creating this?
         //find the vault the keep is going to be added to 
         //find the creator of that vault 

@@ -1,5 +1,4 @@
 <template>
-  <!-- Modal -->
   <div
     class="modal fade"
     :id="'keepDetails-'
@@ -11,32 +10,63 @@
   >
     <div class="modal-dialog modal-lg" role="document">
       <div class="modal-content modal-height">
-        <div class="modal-header">
-          <h3 class="modal-title">
-            {{ keep.name }}
-          </h3>
+        <div class="modal-body modal-overflow">
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
-        </div>
-        <div class="modal-body modal-overflow">
-          <div class="row p-3 my-3 d-flex align-items-center">
-            <div class="col-md-3 col-12 mb-3">
+          <div class="row my-3 d-flex align-items-center">
+            <div class="col-md-6 mb-3">
               <img class="modalImg"
                    :src="keep.img"
                    :alt="keep.name"
               >
             </div>
-            <div class="col-md-9 col-12 px-3">
-              <p><i class="fas fa-eye pr-1 text-info" title="views"></i>{{ keep.views }}</p>
-              <p><i class="fas fa-lock pr-1 text-primary" title="times kept in a vault"></i> {{ keep.keeps }}</p>
+            <div class="col-md-6 px-3">
+              <div class="row d-flex justify-content-center">
+                <div class="col-3">
+                  <p><i class="fas fa-eye pr-1 text-info" title="views"></i>{{ keep.views }}</p>
+                </div>
+                <div class="col-3">
+                  <p><i class="fas fa-key pr-1 text-primary" title="times kept in a vault"></i> {{ keep.keeps }}</p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12">
+                  <h1>{{ keep.name }}</h1>
+                </div>
+                <div class="col">
+                  <p>{{ keep.description }}</p>
+                </div>
+              </div>
+              <div class="row d-flex justify-content-center">
+                <div class="col-md-3 m-0 p-0">
+                  <div id="v-model-select" class="demo">
+                    <select v-model="selected">
+                      <option disabled value="">
+                        🗝Keep In Vault:
+                      </option>
+                      <option>A</option>
+                      <option>B</option>
+                      <option>C</option>
+                    </select>
+                    <!-- <span>Place in Vault: {{ selected }}</span> -->
+                  </div>
+                </div>
+                <div class="col-md-2 ml-5 p-0 text-danger">
+                  <i class="fas fa-trash-alt fa-lg" title="remove keep from vault"></i>
+                </div>
+                <div class="col-md-5 m-0 p-0">
+                  <img
+                    :src="keep.creator.picture"
+                    alt="user photo"
+                    height="40"
+                    class="rounded"
+                  />
+                  {{ keep.creator.name }}
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">
-            Close
-          </button>
         </div>
       </div>
     </div>
@@ -44,7 +74,6 @@
 </template>
 
 <script>
-import { onMounted } from '@vue/runtime-core'
 export default {
   props: {
     keep: {
@@ -52,7 +81,7 @@ export default {
       required: true
     }
   },
-  setup(props) {
+  setup() {
     return {}
   },
   components: {}
@@ -61,12 +90,14 @@ export default {
 
 <style lang="scss" scoped>
 .modalImg{
-  max-width: 100%;
+   object-fit: cover;
+  width: 100%;
+    height: 15vw;
 }
 .modal-overflow{
   overflow: auto;
 }
 .modal-height{
-    max-height: 95vh;
+    max-height: 100%;
 }
 </style>

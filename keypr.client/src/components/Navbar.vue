@@ -72,7 +72,7 @@
               :src="user.picture"
               alt="user photo"
               height="40"
-              class="rounded-circle"
+              class="rounded"
             />
             <span class="mx-3">{{ user.name }}</span>
           </div>

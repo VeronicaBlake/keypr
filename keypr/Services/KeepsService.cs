@@ -64,7 +64,7 @@ namespace keypr.Services
             Vault foundVault = _vaultRepo.GetById(vaultId);
             if(foundVault.IsPrivate == true)
             {
-             throw new Exception("Get outta here with that.");
+             throw new Exception("This vault is private.");
             }
             return _repo.GetVaultKeeps(vaultId);
         }

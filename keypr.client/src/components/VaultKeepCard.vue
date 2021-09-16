@@ -1,16 +1,15 @@
 <template>
-  <div class="card-container" data-toggle="modal" :data-target="'#keepDetails-'+keep.id">
-    <!-- TODO add an @click="" -->
+  <div class="card-container">
     <div class="card bg-dark text-white mt-2 mx-2" style="">
-      <img class=" card-img card-img-top" :src="keep.img" :alt="keep.name">
+      <img class=" card-img card-img-top" :src="vaultKeep.img" :alt="vaultKeep.name">
       <div class="card-img-overlay">
         <div class="row d-flex align-content-end fillDiv">
           <div class="col-12">
             <div class="d-flex justify-content-end y-bottom">
               <h1 class="card-title shadowed">
-                {{ keep.name }}
-                <router-link :to="{name: 'Profile', params: {id:keep.creatorId}}" @click.stop>
-                  <img class="rounded-circle creator" :src="keep.creator.picture" :alt="keep.creator.name">
+                {{ vaultKeep.name }}
+                <router-link :to="{name: 'Profile', params: {id:vaultKeep.creatorId}}" @click.stop>
+                  <img class="rounded-circle creator" :src="vaultKeep.creator.picture" :alt="vaultKeep.creator.name">
                 </router-link>
               </h1>
             </div>
@@ -19,13 +18,13 @@
       </div>
     </div>
   </div>
-  <KeepDetailsModal :keep="keep" />
+  <!-- <vaultKeepDetailsModal :vaultKeep="vaultKeep" /> -->
 </template>
 
 <script>
 export default {
   props: {
-    keep: {
+    vaultKeep: {
       type: Object,
       required: true
     }

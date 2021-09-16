@@ -1,10 +1,10 @@
 <template>
   <div class="component container-fluid">
     <div class="row">
-      <div class="col">
-        <div class="row">
+      <div class="col-md-12">
+        <div class="row" v-if="state.activeVault">
           <h1>
-            {{ state.activeVault }}
+            {{ state.activeVault.name }}
             <i class="fas fa-trash-alt" title="delete vault"></i>
           </h1>
         </div>
@@ -12,8 +12,13 @@
           <p>Keeps: {{ state.vaultKeeps.length }}</p>
         </div>
       </div>
-      <div class="row">
-        <p>{{ state.vaultKeeps }}</p>
+      <div class="col-md-12">
+        <div class="row" v-if="state.vaultKeeps.length !== 0">
+          <p>{{ state.vaultKeeps }}</p>
+        </div>
+        <div class="row" v-if="state.vaultKeeps.length == 0">
+          <h1>No keeps in this vault</h1>
+        </div>
       </div>
     </div>
   </div>
@@ -41,6 +46,7 @@ export default {
         await vaultsService.getVaultKeeps(route.params.id)
       } catch (error) {
         Notification.toast(error, 'error')
+        // TODO router push
       }
     })
     return {
@@ -51,8 +57,6 @@ export default {
   components: {}
 }
 </script>
-
-//find the keeps that have this vault id
 
 <style lang="scss" scoped>
 

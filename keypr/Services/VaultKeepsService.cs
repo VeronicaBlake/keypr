@@ -23,7 +23,7 @@ namespace keypr.Services
             }
             return _vkRepo.Create(newVK);
         }
-        internal VaultKeep Get(int id)
+        internal VaultKeep Get(int id, string userId=null)
         {
             VaultKeep found = _vkRepo.GetById(id);
             Vault foundVault = _vaultRepo.GetById(found.VaultId);
@@ -35,7 +35,13 @@ namespace keypr.Services
             {
             return found;
             }
-            throw new Exception("Get outta here with that.");
+            if(foundVault.IsPrivate == true){
+                if(foundVault.CreatorId == userId){
+                    return found;
+                }
+                throw new Exception("VK Service: this one might be a little janky This is a Private Vault.");
+            }
+            throw new Exception("VK Service: this one might be a little janky This is a Private Vault.");
         }
         internal void Delete(int vkId, string userId)
         {

@@ -54,10 +54,11 @@ namespace keypr.Controllers
     }
       
         [HttpGet("{id}")]
-        public ActionResult<Keep> Get(int id)
+        public async Task<ActionResult<Keep>> Get(int id)
         {
             try
             {
+                Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
                 Keep keep = _service.Get(id);
                 return Ok(keep);
             }

@@ -1,5 +1,5 @@
 <template>
-  <div class="card-container">
+  <div class="card-container" data-toggle="modal" :data-target="'#keepDetails-'+keep.id">
     <div class="card bg-dark text-white mt-2 mx-2" style="">
       <img class=" card-img card-img-top" :src="keep.img" :alt="keep.name">
       <div class="card-img-overlay">
@@ -8,7 +8,7 @@
             <div class="d-flex justify-content-end y-bottom">
               <h1 class="card-title shadowed">
                 {{ keep.name }}
-                <router-link :to="{name: 'Profile', params: {id:keep.creatorId}}">
+                <router-link :to="{name: 'Profile', params: {id:keep.creatorId}}" @click.stop>
                   <img class="rounded-circle creator" :src="keep.creator.picture" :alt="keep.creator.name">
                 </router-link>
               </h1>
@@ -18,7 +18,7 @@
       </div>
     </div>
   </div>
-  <!-- <KeepDetailsModal :keep="keep" /> -->
+  <KeepDetailsModal :keep="keep" />
 </template>
 
 <script>

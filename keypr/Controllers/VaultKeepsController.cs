@@ -35,10 +35,6 @@ namespace keypr.Controllers
         return Ok(vaultKeep);
         }
         return BadRequest("Don't add keeps to other people's vaults, dude.");
-        //TODO how to ensure that the vault creator is the one creating this?
-        //find the vault the keep is going to be added to 
-        //find the creator of that vault 
-        //if that creator is not == userInfo, throw the exception
       }
       catch (Exception err)
       {

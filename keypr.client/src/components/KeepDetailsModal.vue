@@ -2,7 +2,7 @@
   <!-- Modal -->
   <div
     class="modal fade"
-    :id="'keepDetails'
+    :id="'keepDetails-'
       +keep.id"
     tabindex="-1"
     role="dialog"
@@ -47,13 +47,12 @@
 import { onMounted } from '@vue/runtime-core'
 export default {
   props: {
-    game: {
+    keep: {
       type: Object,
       required: true
     }
   },
   setup(props) {
-    onMounted(() => { document.getElementById('description' + props.game.id).innerHTML = props.game.description })
     return {}
   },
   components: {}

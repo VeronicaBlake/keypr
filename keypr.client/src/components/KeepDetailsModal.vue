@@ -40,18 +40,17 @@
               </div>
               <div class="row d-flex justify-content-center">
                 <div class="col-md-3 m-0 p-0">
+                  <!-- v-if  -->
                   <div id="v-model-select" class="demo">
-                    <select v-model="selected">
-                      <option disabled value="">
-                        🗝Keep In Vault:
+                    <select v-model="state.newVaultKeep.vaultId">
+                      <option v-for="v in vaults" :key="v.id" :value="v.id">
+                        {{ v.name }}
                       </option>
-                      <option>A</option>
-                      <option>B</option>
-                      <option>C</option>
                     </select>
                     <!-- <span>Place in Vault: {{ selected }}</span> -->
                   </div>
                 </div>
+                <!-- v-if -->
                 <div class="col-md-2 ml-5 p-0 text-danger">
                   <i class="fas fa-trash-alt fa-lg" title="remove keep from vault"></i>
                 </div>
@@ -74,6 +73,8 @@
 </template>
 
 <script>
+import { computed } from '@vue/runtime-core'
+import { AppState } from '../AppState'
 export default {
   props: {
     keep: {
@@ -82,9 +83,12 @@ export default {
     }
   },
   setup() {
-    return {}
-  },
-  components: {}
+    // TODO state will need newVaultKeep {keepId: props.keep.id, vaultId: ''}
+    return {
+      vaults: computed(() => AppState.userVaults)
+    }
+  }
+
 }
 </script>
 

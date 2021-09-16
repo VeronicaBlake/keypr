@@ -14,15 +14,15 @@ class KeepsService {
     keep.keeps++
   }
 
-  // async increaseViews() {
-  //   const keeps = this.getById
-  //   keeps.views++
-  // }
-
   async createKeep(keep) {
     const res = await api.post('/api/keeps', keep)
     logger.log(res.data)
     AppState.keeps = res.data
+  }
+
+  async destroyKeep(id) {
+    await api.delete('/api/keeps/' + id)
+    AppState.keeps = AppState.keeps.filter(k => k.id !== id)
   }
 }
 

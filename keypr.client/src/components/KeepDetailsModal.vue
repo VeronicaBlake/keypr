@@ -24,10 +24,10 @@
             <div class="col-md-6 px-3">
               <div class="row d-flex justify-content-center">
                 <div class="col-3">
-                  <p><i class="fas fa-eye pr-1 text-info" title="views"></i>{{ keep.views }}</p>
+                  <p><i class="fas fa-eye pr-1 text-info" title="views"></i>{{ keep.keeps }}</p>
                 </div>
                 <div class="col-3">
-                  <p><i class="fas fa-key pr-1 text-primary" title="times kept in a vault"></i> {{ keep.keeps }}</p>
+                  <p><i class="fas fa-key pr-1 text-primary" title="times kept in a vault"></i> {{ keep.views }}</p>
                 </div>
               </div>
               <div class="row">
@@ -50,9 +50,9 @@
                     <!-- <span>Place in Vault: {{ selected }}</span> -->
                   </div>
                 </div>
-                <!-- v-if -->
+                <!-- v-if="account.id === user.id"-->
                 <div class="col-md-2 ml-5 p-0 text-danger">
-                  <i class="fas fa-trash-alt fa-lg" title="remove keep from vault"></i>
+                  <i class="fas fa-trash-alt fa-lg" title="remove keep from vault" @click.stop="destroyKeep"></i>
                 </div>
                 <div class="col-md-5 m-0 p-0">
                   <img
@@ -73,8 +73,10 @@
 </template>
 
 <script>
-import { computed } from '@vue/runtime-core'
+import { computed, reactive } from '@vue/runtime-core'
 import { AppState } from '../AppState'
+import Pop from '../utils/Notifier'
+import { keepsService } from '../services/KeepsService'
 export default {
   props: {
     keep: {
@@ -82,10 +84,26 @@ export default {
       required: true
     }
   },
-  setup() {
-    // TODO state will need newVaultKeep {keepId: props.keep.id, vaultId: ''}
+  setup(props) {
+    const state = reactive({
+      newVaultKeep: { keepId: props.keep.id, vaultId: '' }
+    }
+    )
     return {
-      vaults: computed(() => AppState.userVaults)
+      state,
+      vaults: computed(() => AppState.userVaults),
+      account: computed(() => AppState.account),
+      user: computed(() => AppState.user),
+      async destroyKeep() {
+        try {
+          if (await Pop.confirm()) {
+            await keepsService.destroyKeep(props.keep.id)
+            Pop.toast('Deleted Keep', 'success')
+          }
+        } catch (error) {
+          Pop.toast(error, 'error')
+        }
+      }
     }
   }
 

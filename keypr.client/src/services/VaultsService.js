@@ -18,6 +18,11 @@ class VaultsService {
     AppState.activeVaults.push(res.data)
     return res.data.id
   }
+
+  async destroyVault(id) {
+    await api.delete('/api/vaults/' + id)
+    AppState.vaults = AppState.activeVaults.filter(v => v.id !== id)
+  }
 }
 
 export const vaultsService = new VaultsService()

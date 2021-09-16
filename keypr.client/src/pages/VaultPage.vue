@@ -5,7 +5,7 @@
         <div class="row" v-if="state.activeVault">
           <h1>
             {{ state.activeVault.name }}
-            <i class="fas fa-trash-alt" title="delete vault"></i>
+            <i class="fas fa-trash-alt" title="delete vault" @click.stop="destroyVault"></i>
           </h1>
         </div>
         <div class="row">
@@ -50,8 +50,7 @@ export default {
     onMounted(async() => {
       try {
         await vaultsService.getActiveVault(route.params.id)
-        await vaultsService.getVaultKeeps(route.params.id)
-        // await this.isPrivateVault(route.params.id)
+        // await vaultsService.getVaultKeeps(route.params.id)
       } catch (error) {
         Pop.toast(error, 'error')
         router.push({ name: 'Home' })
@@ -59,19 +58,18 @@ export default {
     })
     return {
       state,
-      route
-      // REVIEW why isn't this working with the router push
-      // async isPrivateVault() {
-      //   try {
-      //     const vault = vaultsService.getActiveVault(state.activeVault.id)
-      //     if (vault.creatorId !== state.user.id) {
-      //       router.push({ name: 'Home' })
-      //       Pop.toast('This Vault is Private', 'error')
-      //     }
-      //   } catch (error) {
-      //     Pop.toast(error, 'error')
-      //   }
-      // }
+      route,
+      async destroyVault() {
+        try {
+          if (await Pop.confirm()) {
+            await vaultsService.destroyVault(state.activeVault.id)
+            Pop.toast('Deleted Vault', 'success')
+            router.push({ name: 'Home' })
+          }
+        } catch (error) {
+          Pop.toast(error, 'error')
+        }
+      }
     }
   },
   components: {}

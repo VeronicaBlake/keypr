@@ -1,5 +1,5 @@
 <template>
-  <div class="card-container" data-toggle="modal" :data-target="'#keepDetails-'+keep.id">
+  <div class="card-container" data-toggle="modal" :data-target="'#keepDetails-'+keep.id" @click="viewKeep">
     <!-- TODO add an @click="" -->
     <div class="card bg-dark text-white mt-2 mx-2" style="">
       <img class=" card-img card-img-top" :src="keep.img" :alt="keep.name">
@@ -23,6 +23,7 @@
 </template>
 
 <script>
+import { keepsService } from '../services/KeepsService'
 export default {
   props: {
     keep: {
@@ -30,8 +31,12 @@ export default {
       required: true
     }
   },
-  setup() {
-    return {}
+  setup(props) {
+    return {
+      viewKeep() {
+        keepsService.increaseViews(props.keep.id)
+      }
+    }
   },
   components: {}
 }

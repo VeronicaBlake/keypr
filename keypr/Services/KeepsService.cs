@@ -33,6 +33,7 @@ namespace keypr.Services
             {
                 throw new Exception("Invalid Keep Id");
             }
+            _repo.viewKeep(id);
             return keep;
         }
 

@@ -84,11 +84,9 @@ namespace keypr.Services
           {
             return vaults;
           }
-          if(userId == null){
+          if(userId != ownerId ){
           vaults = vaults.FindAll(v => v.IsPrivate == false);
-          return vaults;
           }
-          vaults = vaults.FindAll(v => v.IsPrivate == false);
           return vaults;
         }
     }

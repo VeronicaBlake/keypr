@@ -1,4 +1,5 @@
 import { AppState } from '../AppState'
+import { logger } from '../utils/Logger'
 import { api } from './AxiosService'
 
 class KeepsService {
@@ -7,9 +8,21 @@ class KeepsService {
     AppState.keeps = res.data
   }
 
-  async increaseViews() {
-    const keeps = this.getAllKeeps
-    keeps.views++
+  async increaseViews(id) {
+    await api.get('api/keeps/' + id)
+    const keep = AppState.keeps.find(k => k.id === id)
+    keep.keeps++
+  }
+
+  // async increaseViews() {
+  //   const keeps = this.getById
+  //   keeps.views++
+  // }
+
+  async createKeep(keep) {
+    const res = await api.post('/api/keeps', keep)
+    logger.log(res.data)
+    AppState.keeps = res.data
   }
 }
 

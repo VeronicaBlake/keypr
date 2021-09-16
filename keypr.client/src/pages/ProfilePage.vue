@@ -30,36 +30,51 @@
         <div class="row">
           <h2>
             Vaults
-            <i class="fas fa-plus"></i>
+            <div class="col-12 mx-0 px-0 mt-2">
+              <!-- v-if -->
+              <button class="btn btn-large btn-primary" data-toggle="modal" data-target="#create-vault" title="Create Vault">
+                <i class="fas fa-plus text-white"> Create Vault</i>
+              </button>
+            </div>
           </h2>
+          <div class="my-2 row filld">
+            <div class="row">
+              <VaultProfileCard v-for="v in state.activeVaults" :key="v.id" :vault="v" />
+            </div>
+          </div>
         </div>
-        <div class="row">
-          <VaultProfileCard v-for="v in state.activeVaults" :key="v.id" :vault="v" />
-        </div>
-      </div>
-    </div>
-    <div class="row mt-5 ml-5">
-      <div class="col">
-        <div class="row">
-          <h2>
-            Keeps
-            <i class="fas fa-plus"></i>
-          </h2>
-        </div>
-        <div class="row">
-          <KeepProfileCard v-for="k in state.activeKeeps" :key="k.id" :keep="k" />
+        <div class="row mt-5">
+          <div class="col">
+            <div class="row">
+              <h2>
+                Keeps
+                <div class="col-12 mx-0 px-0 mt-2">
+                  <!-- v-if -->
+                  <button class="btn btn-large btn-primary" data-toggle="modal" data-target="#create-keep" title="Create Keep">
+                    <i class="fas fa-plus text-white"> Create Keeps</i>
+                  </button>
+                </div>
+              </h2>
+            </div>
+            <div class="row">
+              <KeepProfileCard v-for="k in state.activeKeeps" :key="k.id" :keep="k" />
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
+  <CreateVaultModal />
+  <CreateKeepModal />
 </template>
 
 <script>
 import { computed, onMounted, reactive } from '@vue/runtime-core'
 import { useRoute } from 'vue-router'
 import { profilesService } from '../services/ProfilesService'
-import Notification from '../utils/Notifier'
+import Pop from '../utils/Notifier'
 import { AppState } from '../AppState'
+// import { vaultsService } from '../services/VaultsService'
 export default {
   name: 'ProfilePage',
   setup() {
@@ -79,12 +94,21 @@ export default {
         await profilesService.getProfileKeeps(route.params.id)
         await profilesService.getProfileVaults(route.params.id)
       } catch (error) {
-        Notification.toast(error, 'error')
+        Pop.toast(error, 'error')
       }
     })
     return {
       state,
       route
+      // async createVault() {
+      //   try {
+      //     await vaultsService.createVault(state.newVault)
+      //     Pop.toast('Successfully Created Vault', 'success')
+      //     state.newVault = {}
+      //   } catch (error) {
+      //     Pop.toast(error, 'error')
+      //   }
+      // }
       // async create vault - option to make it private
       // maybe create private vault too?
       // async create keep

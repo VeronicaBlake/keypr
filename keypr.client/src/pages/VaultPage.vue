@@ -14,10 +14,16 @@
       </div>
       <div class="col-md-12">
         <div class="row" v-if="state.vaultKeeps.length !== 0">
-          <p>{{ state.vaultKeeps }}</p>
+          <KeepCard v-for=" k in state.vaultKeeps"
+                    :key="k.id"
+                    :keep="k"
+          />
         </div>
         <div class="row" v-if="state.vaultKeeps.length == 0">
           <h1>No keeps in this vault</h1>
+        </div>
+        <div class="row" v-if="state.activeVault.isPrivate == true">
+          <h1>This Vault is Private</h1>
         </div>
       </div>
     </div>
@@ -26,14 +32,15 @@
 
 <script>
 import { computed, onMounted, reactive } from '@vue/runtime-core'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { vaultsService } from '../services/VaultsService'
-import Notification from '../utils/Notifier'
+import Pop from '../utils/Notifier'
 import { AppState } from '../AppState'
 export default {
   name: 'Vaultpage',
   setup() {
     const route = useRoute()
+    const router = useRouter()
     const state = reactive({
       user: computed(() => AppState.user),
       account: computed(() => AppState.account),
@@ -44,14 +51,27 @@ export default {
       try {
         await vaultsService.getActiveVault(route.params.id)
         await vaultsService.getVaultKeeps(route.params.id)
+        // await this.isPrivateVault(route.params.id)
       } catch (error) {
-        Notification.toast(error, 'error')
-        // TODO router push
+        Pop.toast(error, 'error')
+        router.push({ name: 'Home' })
       }
     })
     return {
       state,
       route
+      // REVIEW why isn't this working with the router push
+      // async isPrivateVault() {
+      //   try {
+      //     const vault = vaultsService.getActiveVault(state.activeVault.id)
+      //     if (vault.creatorId !== state.user.id) {
+      //       router.push({ name: 'Home' })
+      //       Pop.toast('This Vault is Private', 'error')
+      //     }
+      //   } catch (error) {
+      //     Pop.toast(error, 'error')
+      //   }
+      // }
     }
   },
   components: {}

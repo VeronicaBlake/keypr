@@ -1,4 +1,5 @@
 import { AppState } from '../AppState'
+import { logger } from '../utils/Logger'
 import { api } from './AxiosService'
 
 class VaultsService {
@@ -10,6 +11,12 @@ class VaultsService {
   async getVaultKeeps(id) {
     const res = await api.get(`api/vaults/${id}/keeps`)
     AppState.vaultKeeps = res.data
+  }
+
+  async createVault(vault) {
+    const res = await api.post('/api/vaults', vault)
+    AppState.activeVaults.push(res.data)
+    return res.data.id
   }
 }
 

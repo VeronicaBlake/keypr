@@ -44,6 +44,28 @@ namespace keypr.Repositories
             }, new { id }, splitOn: "id").FirstOrDefault();
         }
 
+        public void changeKeeps(int id, int value)
+        {
+            string sql = @"
+            UPDATE keeps
+            SET 
+            keeps = keeps + @value 
+            WHERE id = @id
+            ";
+            _db.Execute(sql, new {id, value});
+        }
+        public void viewKeep(int id)
+        {
+            string sql = @"
+            UPDATE keeps
+            SET 
+            keeps = keeps + 1 
+            WHERE id = @id
+            ";
+            _db.Execute(sql, new {id});
+        }
+
+
         public Keep Edit(Keep updatedKeep)
         {
             string sql = @"
@@ -90,13 +112,18 @@ namespace keypr.Repositories
         {
             string sql = @"
             SELECT 
+            a.*,
             k.*,
             vk.id AS vaultKeepId
             FROM vaultkeeps vk
-            JOIN keeps k ON vk.keepId = k.id
+            JOIN keeps k ON vk.keepId = k.id 
+            JOIN accounts a ON k.creatorId = a.id
             WHERE vk.vaultId = @vaultId;
             ";
-            return _db.Query<VaultKeepKeepViewModel>(sql, new {vaultId}).ToList();
+            return _db.Query<Profile, VaultKeepKeepViewModel, VaultKeepKeepViewModel>(sql, (prof, keep)=>{
+                keep.Creator = prof;
+                return keep;
+            },  new {vaultId}).ToList();
         }
 
         public void Delete(int id)

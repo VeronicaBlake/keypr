@@ -8,11 +8,13 @@ namespace keypr.Services
     {
         private readonly VaultKeepsRepository _vkRepo;
         private readonly VaultsRepository _vaultRepo;
+        private readonly KeepsRepository _keepRepo;
 
-        public VaultKeepsService(VaultKeepsRepository vkRepo, VaultsRepository vaultRepo)
+        public VaultKeepsService(VaultKeepsRepository vkRepo, VaultsRepository vaultRepo, KeepsRepository keepRepo)
         {
             _vkRepo = vkRepo;
             _vaultRepo = vaultRepo;
+            _keepRepo = keepRepo;
         }
 
         internal VaultKeep Create(VaultKeep newVK, string userId)
@@ -21,7 +23,10 @@ namespace keypr.Services
             {
                 throw new Exception("Don't put things in other people's vaults, dude.");
             }
-            return _vkRepo.Create(newVK);
+            var vk =  _vkRepo.Create(newVK);
+            //TODO call keep repo and incriment keeps
+            _keepRepo.changeKeeps(newVK.KeepId, 1);
+            return vk;
         }
         internal VaultKeep Get(int id, string userId=null)
         {
@@ -50,6 +55,7 @@ namespace keypr.Services
             {
                 throw new Exception("Don't move other people's keeps from vaults");
             }
+             _keepRepo.changeKeeps(toDelete.KeepId, -1);
             _vkRepo.Delete(vkId); 
         }
     }

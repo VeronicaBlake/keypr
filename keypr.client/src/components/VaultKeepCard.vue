@@ -5,6 +5,12 @@
       <div class="card-img-overlay">
         <div class="row d-flex align-content-end fillDiv">
           <div class="col-12">
+            <div class="d-flex justify-content-end y-top">
+              <h1 class="card-title shadowed">
+                <!-- NOTE this is the v-if for hiding the icons -->
+                <i class="fas fa-trash-alt" title="remove from vault" @click.stop="removeKeep" v-if="vaultKeep.creatorId === account.id"></i>
+              </h1>
+            </div>
             <div class="d-flex justify-content-end y-bottom">
               <h1 class="card-title shadowed">
                 {{ vaultKeep.name }}
@@ -22,6 +28,12 @@
 </template>
 
 <script>
+import { computed } from '@vue/runtime-core'
+import { AppState } from '../AppState'
+import { vaultsService } from '../services/VaultsService'
+import Pop from '../utils/Notifier'
+import { logger } from '../utils/Logger'
+
 export default {
   props: {
     vaultKeep: {
@@ -29,8 +41,21 @@ export default {
       required: true
     }
   },
-  setup() {
-    return {}
+  setup(props) {
+    return {
+      account: computed(() => AppState.account),
+      async removeKeep() {
+        try {
+          if (await Pop.confirm()) {
+            vaultsService.removeFromVault(AppState.activeVault.id, props.vaultKeep.vaultKeepId)
+            Pop.toast('Removed Keep From Vault', 'success')
+          }
+        } catch (error) {
+          Pop.toast(error, 'error')
+          logger.log(error)
+        }
+      }
+    }
   },
   components: {}
 }

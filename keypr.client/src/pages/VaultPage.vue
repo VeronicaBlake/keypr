@@ -14,9 +14,9 @@
       </div>
       <div class="col-md-12">
         <div class="row" v-if="state.vaultKeeps.length !== 0">
-          <KeepProfileCard v-for=" k in state.vaultKeeps"
-                           :key="k.id"
-                           :keep="k"
+          <VaultKeepCard v-for=" k in state.vaultKeeps"
+                         :key="k.id"
+                         :vault-keep="k"
           />
         </div>
         <div class="row" v-if="state.vaultKeeps.length == 0">

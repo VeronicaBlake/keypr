@@ -6,12 +6,6 @@
       <div class="card-img-overlay">
         <div class="row d-flex align-content-end fillDiv">
           <div class="col-12">
-            <div class="d-flex justify-content-end y-top">
-              <h1 class="card-title shadowed">
-                <!-- NOTE this is the v-if for hiding the icons -->
-                <i class="fas fa-trash-alt" title="remove from vault" @click.stop="removeKeep" v-if="state.activeVault.creatorId === state.account.Id"></i>
-              </h1>
-            </div>
             <div class="d-flex justify-content-end y-bottom">
               <h1 class="card-title shadowed">
                 {{ keep.name }}

@@ -56,7 +56,7 @@
                   </div>
                 </div>
                 <div class="col-md-2 ml-5 p-0 text-danger">
-                  <i class="fas fa-trash-alt fa-lg" title="remove keep from vault" @click.stop="destroyKeep" v-if="keep.creator.id === state.account.id"></i>
+                  <i class="fas fa-trash-alt fa-lg" title="destroy keep" @click.stop="destroyKeep" v-if="keep.creator.id === state.account.id"></i>
                 </div>
                 <div class="col-md-5 m-0 p-0">
                   <img

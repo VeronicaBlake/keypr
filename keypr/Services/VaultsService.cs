@@ -23,7 +23,8 @@ namespace keypr.Services
             Vault found = _repo.GetById(id);
             if (found == null)
             {
-                throw new Exception("Invalid Id");
+                throw new Exception("VaultsService: Invalid Id");
+                //TODO idk why, but found is returning as null
             }
             if (found.IsPrivate == true && found.CreatorId != userId)
             {

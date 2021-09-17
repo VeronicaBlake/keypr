@@ -14,12 +14,12 @@ class VaultsService {
   }
 
   async addToVault(vaultKeep) {
-    await api.post(`api/vaults/${vaultKeep.vaultId}/keeps`, vaultKeep)
-    this.getVaultKeeps(vaultKeep.vaultId)
+    await api.post('api/vaultKeeps', vaultKeep)
+    // this.getVaultKeeps(vaultKeep.vaultId)
   }
 
-  async removeFromVault(vaultId, keepId) {
-    await api.delete(`api/vaults/${vaultId}/keeps`, keepId)
+  async removeFromVault(vaultId, vaultKeepId) {
+    await api.delete(`api/vaultKeeps/${vaultKeepId}`)
     this.getVaultKeeps(vaultId)
   }
 

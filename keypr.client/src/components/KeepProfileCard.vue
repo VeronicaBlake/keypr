@@ -8,7 +8,8 @@
           <div class="col-12">
             <div class="d-flex justify-content-end y-top">
               <h1 class="card-title shadowed">
-                <i class="fas fa-trash-alt" title="remove from vault" @click.stop="removeKeep"></i>
+                <!-- NOTE this is the v-if for hiding the icons -->
+                <i class="fas fa-trash-alt" title="remove from vault" @click.stop="removeKeep" v-if="state.activeVault.creatorId === state.account.Id"></i>
               </h1>
             </div>
             <div class="d-flex justify-content-end y-bottom">
@@ -29,8 +30,10 @@
 
 <script>
 import { AppState } from '../AppState'
+import Pop from '../utils/Notifier'
 import { keepsService } from '../services/KeepsService'
 import { vaultsService } from '../services/VaultsService'
+import { computed, reactive } from '@vue/runtime-core'
 export default {
   props: {
     keep: {
@@ -39,12 +42,29 @@ export default {
     }
   },
   setup(props) {
+    const state = reactive({
+      account: computed(() => AppState.account),
+      vaultKeeps: computed(() => AppState.vaultKeeps),
+      activeVault: computed(() => AppState.activeVault)
+    })
     return {
+      state,
       viewKeep() {
-        keepsService.increaseViews(props.keep.id)
+        try {
+          keepsService.increaseViews(props.keep.id)
+        } catch (error) {
+          Pop.toast(error, 'error')
+        }
       },
-      removeKeep() {
-        vaultsService.removeFromVault(AppState.activeVault.id, props.keep.id)
+      async removeKeep() {
+        try {
+          if (await Pop.confirm()) {
+            vaultsService.removeFromVault(AppState.activeVault.id, props.keep.vaultKeepId)
+            Pop.toast('Removed Keep From Vault', 'success')
+          }
+        } catch (error) {
+          Pop.toast(error, 'error')
+        }
       }
     }
   },

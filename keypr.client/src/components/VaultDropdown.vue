@@ -1,5 +1,5 @@
 <template>
-  <a class="dropdown-item " @click="addToVault()">{{ vault.name }}</a>
+  <a class="dropdown-item " @click="addToVault(vault)">{{ vault.name }}</a>
 </template>
 
 <script>
@@ -14,12 +14,12 @@ export default {
     }
   },
   name: 'VaultDropdown',
-  setup(props) {
+  setup() {
     return {
-      async addToVault(props) {
+      async addToVault(vault) {
         try {
           const vaultKeep = {
-            vaultId: props.vault.Id,
+            vaultId: vault.Id,
             keepId: AppState.keep.Id
           }
           vaultsService.addToVault(vaultKeep)

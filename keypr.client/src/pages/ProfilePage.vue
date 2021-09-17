@@ -32,7 +32,7 @@
             Vaults
             <div class="col-12 mx-0 px-0 mt-2">
               <!-- v-if -->
-              <button class="btn btn-large btn-primary" data-toggle="modal" data-target="#create-vault" title="Create Vault">
+              <button class="btn btn-large btn-primary" data-toggle="modal" data-target="#create-vault" title="Create Vault" v-if="state.activeProfile.id === state.account.id">
                 <i class="fas fa-plus text-white"> Create Vault</i>
               </button>
             </div>
@@ -50,7 +50,7 @@
                 Keeps
                 <div class="col-12 mx-0 px-0 mt-2">
                   <!-- v-if -->
-                  <button class="btn btn-large btn-primary" data-toggle="modal" data-target="#create-keep" title="Create Keep">
+                  <button class="btn btn-large btn-primary" data-toggle="modal" data-target="#create-keep" title="Create Keep" v-if="state.activeProfile.id === state.account.id">
                     <i class="fas fa-plus text-white"> Create Keeps</i>
                   </button>
                 </div>
@@ -100,18 +100,6 @@ export default {
     return {
       state,
       route
-      // async createVault() {
-      //   try {
-      //     await vaultsService.createVault(state.newVault)
-      //     Pop.toast('Successfully Created Vault', 'success')
-      //     state.newVault = {}
-      //   } catch (error) {
-      //     Pop.toast(error, 'error')
-      //   }
-      // }
-      // async create vault - option to make it private
-      // maybe create private vault too?
-      // async create keep
     }
   },
   components: {}

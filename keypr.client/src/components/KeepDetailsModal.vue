@@ -54,19 +54,9 @@
                       <VaultDropdown v-for="v in state.vaults" :key="v.id" :vault="v" />
                     </div>
                   </div>
-                  <!-- v-if  -->
-                  <!-- <div id="v-model-select" class="demo">
-                    <select v-model="state.newVaultKeep.vaultId">
-                      <option v-for="v in vaults" :key="v.id" :value="v.id">
-                        {{ v.name }}
-                      </option>
-                    </select>
-                    <span>Place in Vault: {{ selected }}</span>
-                  </div> -->
                 </div>
-                <!-- v-if="account.id === user.id"-->
                 <div class="col-md-2 ml-5 p-0 text-danger">
-                  <i class="fas fa-trash-alt fa-lg" title="remove keep from vault" @click.stop="destroyKeep"></i>
+                  <i class="fas fa-trash-alt fa-lg" title="remove keep from vault" @click.stop="destroyKeep" v-if="keep.creator.id === state.account.id"></i>
                 </div>
                 <div class="col-md-5 m-0 p-0">
                   <img
@@ -102,7 +92,8 @@ export default {
     const state = reactive({
       vaults: computed(() => AppState.activeVaults),
       activeKeep: computed(() => AppState.keep),
-      newVaultKeep: { keepId: props.keep.id, vaultId: '' }
+      newVaultKeep: { keepId: props.keep.id, vaultId: '' },
+      account: computed(() => AppState.account)
     }
     )
     onMounted(async() => {

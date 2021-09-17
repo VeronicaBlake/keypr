@@ -5,7 +5,7 @@
         <div class="row" v-if="state.activeVault">
           <h1>
             {{ state.activeVault.name }}
-            <i class="fas fa-trash-alt" title="delete vault" @click.stop="destroyVault" v-if="state.activeVault.creatorId === state.account"></i>
+            <i class="fas fa-trash-alt" title="delete vault" @click.stop="destroyVault" v-if="state.activeVault.creatorId === state.account.id"></i>
           </h1>
         </div>
         <div class="row">

@@ -18,7 +18,7 @@ namespace keypr.Services
         {
            return _repo.Create(newVault);
         }
-        internal Vault Get(int id, string userId= null)
+        internal Vault Get(int id, string userId)
         {
             Vault found = _repo.GetById(id);
             if (found == null)

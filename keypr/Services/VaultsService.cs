@@ -25,6 +25,7 @@ namespace keypr.Services
             {
                 throw new Exception("VaultsService: Invalid Id");
                 //TODO idk why, but found is returning as null
+                // is it because the vk.vaultId is 0?
             }
             if (found.IsPrivate == true && found.CreatorId != userId)
             {

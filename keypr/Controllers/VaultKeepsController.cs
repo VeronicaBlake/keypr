@@ -28,8 +28,9 @@ namespace keypr.Controllers
       try
       {
         Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
+        newVK.CreatorId = userInfo.Id;
+        VaultKeep showMe = newVK;
         Vault vaultAddingTo = _vaultsService.Get(newVK.VaultId, userInfo.Id);
-        //TODO get help here, it's getting an invalid Id on the above line
         if(vaultAddingTo.CreatorId == userInfo.Id){
         newVK.CreatorId = userInfo.Id;
         VaultKeep vaultKeep = _vkservice.Create(newVK, userInfo.Id);

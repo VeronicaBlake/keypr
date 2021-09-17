@@ -24,10 +24,10 @@
             <div class="col-md-6 px-3">
               <div class="row d-flex justify-content-center">
                 <div class="col-3">
-                  <p><i class="fas fa-eye pr-1 text-info" title="views"></i>{{ keep.keeps }}</p>
+                  <p><i class="fas fa-eye pr-1 text-info" title="views"></i>{{ keep.views }}</p>
                 </div>
                 <div class="col-3">
-                  <p><i class="fas fa-key pr-1 text-primary" title="times kept in a vault"></i> {{ keep.views }}</p>
+                  <p><i class="fas fa-key pr-1 text-primary" title="times kept in a vault"></i> {{ keep.keeps }}</p>
                 </div>
               </div>
               <div class="row">
@@ -51,7 +51,7 @@
                       Add to Vault
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                      <VaultDropdown v-for="v in state.vaults" :key="v.id" :vault="v" />
+                      <VaultDropdown v-for="v in state.vaults" :key="v.id" :vault="v" :keep="keep" />
                     </div>
                   </div>
                 </div>

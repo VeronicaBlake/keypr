@@ -24,7 +24,6 @@ namespace keypr.Services
                 throw new Exception("Don't put things in other people's vaults, dude.");
             }
             var vk =  _vkRepo.Create(newVK);
-            //TODO call keep repo and incriment keeps
             _keepRepo.changeKeeps(newVK.KeepId, 1);
             return vk;
         }

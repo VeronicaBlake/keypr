@@ -11,6 +11,12 @@ class KeepsService {
   async increaseViews(id) {
     await api.get('api/keeps/' + id)
     const keep = AppState.keeps.find(k => k.id === id)
+    keep.views++
+  }
+
+  async increaseKeeps(id) {
+    await api.get('api/keeps/' + id)
+    const keep = AppState.keeps.find(k => k.id === id)
     keep.keeps++
   }
 

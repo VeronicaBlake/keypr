@@ -40,15 +40,29 @@
               </div>
               <div class="row d-flex justify-content-center">
                 <div class="col-md-3 m-0 p-0">
+                  <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle"
+                            type="button"
+                            id="dropdownMenuButton"
+                            data-toggle="dropdown"
+                            aria-haspopup="true"
+                            aria-expanded="false"
+                    >
+                      Add to Vault
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                      <VaultDropdown v-for="v in state.vaults" :key="v.id" :vault="v" />
+                    </div>
+                  </div>
                   <!-- v-if  -->
-                  <div id="v-model-select" class="demo">
+                  <!-- <div id="v-model-select" class="demo">
                     <select v-model="state.newVaultKeep.vaultId">
                       <option v-for="v in vaults" :key="v.id" :value="v.id">
                         {{ v.name }}
                       </option>
                     </select>
-                    <!-- <span>Place in Vault: {{ selected }}</span> -->
-                  </div>
+                    <span>Place in Vault: {{ selected }}</span>
+                  </div> -->
                 </div>
                 <!-- v-if="account.id === user.id"-->
                 <div class="col-md-2 ml-5 p-0 text-danger">
@@ -73,7 +87,7 @@
 </template>
 
 <script>
-import { computed, reactive } from '@vue/runtime-core'
+import { computed, onMounted, reactive } from '@vue/runtime-core'
 import { AppState } from '../AppState'
 import Pop from '../utils/Notifier'
 import { keepsService } from '../services/KeepsService'
@@ -86,12 +100,20 @@ export default {
   },
   setup(props) {
     const state = reactive({
+      vaults: computed(() => AppState.activeVaults),
+      activeKeep: computed(() => AppState.keep),
       newVaultKeep: { keepId: props.keep.id, vaultId: '' }
     }
     )
+    onMounted(async() => {
+      try {
+        AppState.keep = props.keep
+      } catch (error) {
+        Pop.toast('Unable to get all keeps', error)
+      }
+    })
     return {
       state,
-      vaults: computed(() => AppState.userVaults),
       account: computed(() => AppState.account),
       user: computed(() => AppState.user),
       async destroyKeep() {

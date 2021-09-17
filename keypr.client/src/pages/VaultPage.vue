@@ -5,7 +5,7 @@
         <div class="row" v-if="state.activeVault">
           <h1>
             {{ state.activeVault.name }}
-            <i class="fas fa-trash-alt" title="delete vault" @click.stop="destroyVault"></i>
+            <i class="fas fa-trash-alt" title="delete vault" @click.stop="destroyVault" v-if="state.activeVault.creatorId === state.account"></i>
           </h1>
         </div>
         <div class="row">
@@ -14,9 +14,9 @@
       </div>
       <div class="col-md-12">
         <div class="row" v-if="state.vaultKeeps.length !== 0">
-          <KeepCard v-for=" k in state.vaultKeeps"
-                    :key="k.id"
-                    :keep="k"
+          <KeepProfileCard v-for=" k in state.vaultKeeps"
+                           :key="k.id"
+                           :keep="k"
           />
         </div>
         <div class="row" v-if="state.vaultKeeps.length == 0">
@@ -42,7 +42,6 @@ export default {
     const route = useRoute()
     const router = useRouter()
     const state = reactive({
-      user: computed(() => AppState.user),
       account: computed(() => AppState.account),
       vaultKeeps: computed(() => AppState.vaultKeeps),
       activeVault: computed(() => AppState.activeVault)
@@ -50,7 +49,7 @@ export default {
     onMounted(async() => {
       try {
         await vaultsService.getActiveVault(route.params.id)
-        // await vaultsService.getVaultKeeps(route.params.id)
+        await vaultsService.getVaultKeeps(route.params.id)
       } catch (error) {
         Pop.toast(error, 'error')
         router.push({ name: 'Home' })

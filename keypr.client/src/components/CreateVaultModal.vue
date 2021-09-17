@@ -69,13 +69,12 @@
 import $ from 'jquery'
 import Pop from '../utils/Notifier'
 import { vaultsService } from '../services/VaultsService'
-import { reactive, computed } from 'vue'
-import { useRouter } from 'vue-router'
-import { AppState } from '../AppState'
+import { reactive } from 'vue'
+// import { useRouter } from 'vue-router'
+// import { AppState } from '../AppState'
 export default {
   name: 'Component',
   setup() {
-    const router = useRouter()
     const state = reactive({
       createdVault: { isPrivate: false }
       // thisVault: computed(() => AppState.activeVault)

@@ -120,9 +120,9 @@ namespace keypr.Repositories
             JOIN accounts a ON k.creatorId = a.id
             WHERE vk.vaultId = @vaultId;
             ";
-            return _db.Query<Profile, VaultKeepKeepViewModel, VaultKeepKeepViewModel>(sql, (prof, keep)=>{
-                keep.Creator = prof;
-                return keep;
+            return _db.Query<Profile, VaultKeepKeepViewModel, VaultKeepKeepViewModel>(sql, (prof, vaultKeepViewModel)=>{
+                vaultKeepViewModel.Creator = prof;
+                return vaultKeepViewModel;
             },  new {vaultId}).ToList();
         }
 

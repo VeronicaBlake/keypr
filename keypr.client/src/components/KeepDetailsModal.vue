@@ -35,21 +35,25 @@
                   <p><i class="fas fa-key pr-md-1 text-primary" title="times kept in a vault"></i> {{ keep.keeps }}</p>
                 </div>
               </div>
-              <!-- name and desc -->
+              <!-- nam, trash and desc -->
               <div class="row">
                 <div class="col-md-12">
-                  <h1>{{ keep.name }}</h1>
+                  <h1>
+                    {{ keep.name }}
+                  </h1>
+                  <div class="col-md-12">
+                    <i class="fas fa-trash-alt trashCan fa-lg" title="destroy keep" @click.stop="destroyKeep" v-if="keep.creator.id === state.account.id"></i>
+                  </div>
                 </div>
                 <div class="col-md-12">
                   <p>{{ keep.description }}</p>
                 </div>
               </div>
-              <!-- dropdown, trash and creator  -->
               <div class="row d-flex justify-content-center">
                 <!-- dropdown -->
-                <div class="col-md-3 m-0 p-0">
+                <div class="col-md-6 my-2 mx-0 p-0">
                   <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle"
+                    <button class="btn btn-primary dropdown-toggle"
                             type="button"
                             id="dropdownMenuButton"
                             data-toggle="dropdown"
@@ -63,20 +67,16 @@
                     </div>
                   </div>
                 </div>
-                <!-- trash -->
-                <div class="col-md-2 ml-5 p-0 text-danger">
-                  <i class="fas fa-trash-alt fa-lg" title="destroy keep" @click.stop="destroyKeep" v-if="keep.creator.id === state.account.id"></i>
-                </div>
                 <!-- creator -->
-                <div class="col-md-5 m-0 p-0">
+                <div class="col-md-6 my-2 mx-0 p-0">
                   <!-- TODO router push to profile page -->
                   <img
                     :src="keep.creator.picture"
                     alt="user photo"
                     height="40"
                     class="rounded"
+                    :title="keep.creator.name"
                   />
-                  {{ keep.creator.name }}
                 </div>
               </div>
             </div>
@@ -146,5 +146,8 @@ export default {
 }
 .modal-height{
     max-height: 100%;
+}
+.trashCan{
+  color: rgb(94, 96, 98);
 }
 </style>

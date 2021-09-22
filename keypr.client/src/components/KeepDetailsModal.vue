@@ -11,34 +11,42 @@
     <div class="modal-dialog modal-lg" role="document">
       <div class="modal-content modal-height">
         <div class="modal-body modal-overflow">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-          <div class="row my-3 d-flex align-items-center">
+          <div class="row d-flex px-3 justify-content-end">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="row my-3">
+            <!-- keep image -->
             <div class="col-md-6 mb-3">
               <img class="modalImg"
                    :src="keep.img"
                    :alt="keep.name"
               >
             </div>
+            <!-- right side -->
             <div class="col-md-6 px-3">
-              <div class="row d-flex justify-content-center">
-                <div class="col-3">
-                  <p><i class="fas fa-eye pr-1 text-info" title="views"></i>{{ keep.views }}</p>
+              <!-- eye and key icons -->
+              <div class="row d-flex justify-content-center p-0 m-0">
+                <div class="col-md-3">
+                  <p><i class="fas fa-eye pt-2 pr-md-1 text-info" title="views"></i>{{ keep.views }}</p>
                 </div>
-                <div class="col-3">
-                  <p><i class="fas fa-key pr-1 text-primary" title="times kept in a vault"></i> {{ keep.keeps }}</p>
+                <div class="col-md-3">
+                  <p><i class="fas fa-key pr-md-1 text-primary" title="times kept in a vault"></i> {{ keep.keeps }}</p>
                 </div>
               </div>
+              <!-- name and desc -->
               <div class="row">
-                <div class="col-12">
+                <div class="col-md-12">
                   <h1>{{ keep.name }}</h1>
                 </div>
-                <div class="col">
+                <div class="col-md-12">
                   <p>{{ keep.description }}</p>
                 </div>
               </div>
+              <!-- dropdown, trash and creator  -->
               <div class="row d-flex justify-content-center">
+                <!-- dropdown -->
                 <div class="col-md-3 m-0 p-0">
                   <div class="dropdown">
                     <button class="btn btn-secondary dropdown-toggle"
@@ -55,10 +63,13 @@
                     </div>
                   </div>
                 </div>
+                <!-- trash -->
                 <div class="col-md-2 ml-5 p-0 text-danger">
                   <i class="fas fa-trash-alt fa-lg" title="destroy keep" @click.stop="destroyKeep" v-if="keep.creator.id === state.account.id"></i>
                 </div>
+                <!-- creator -->
                 <div class="col-md-5 m-0 p-0">
+                  <!-- TODO router push to profile page -->
                   <img
                     :src="keep.creator.picture"
                     alt="user photo"
@@ -128,6 +139,7 @@ export default {
    object-fit: cover;
   width: 100%;
     height: 15vw;
+    margin-bottom: 0%;
 }
 .modal-overflow{
   overflow: auto;
